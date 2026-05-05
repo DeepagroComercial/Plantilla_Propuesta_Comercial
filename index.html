@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Propuesta Comercial DeepAgro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   DEEPAGRO — PROPUESTA COMERCIAL · METALFOR
+   Versión final · self-contained · A4 print-ready
+   ===================================================================== */
+
+:root{
+  /* Brand */
+  --da-green:#1d8649; --da-green-50:#e8f2ec; --da-green-100:#c9e2d3; --da-green-200:#97c7ac;
+  --da-green-300:#5ca77b; --da-green-500:#1d8649; --da-green-600:#156a39; --da-green-700:#0f5028; --da-green-800:#0a3619;
+  --da-teal:#005151; --da-teal-700:#003a3a;
+  --da-yellow:#f4b223; --da-yellow-50:#fdf3d9; --da-yellow-300:#f9cf73; --da-yellow-700:#b88217;
+  --da-red:#e84f3e;
+  --da-ink:#1a1f1c; --da-paper:#fafaf7;
+  --da-n-50:#f6f6f2; --da-n-100:#eeeee8; --da-n-200:#dedcd2; --da-n-300:#bcbbae;
+  --da-n-400:#8f8e80; --da-n-500:#65655a; --da-n-600:#434339; --da-n-700:#2d2d26;
+  --da-n-800:#1c1c18; --da-n-900:#0f0f0c;
+
+  /* Fonts */
+  --font-display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --font-body:'Roboto','Helvetica Neue',Arial,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+
+  /* Page */
+  --page-w:210mm;
+  --page-h:297mm;
+  --page-pad:18mm;
+  --ink:var(--da-ink);
+  --muted:var(--da-n-500);
+  --rule:var(--da-n-200);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#141411;font-family:var(--font-body);color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+.stage{padding:28px 0;display:flex;flex-direction:column;align-items:center;gap:18px}
+
+/* ---------- PAGE FRAME ---------- */
+.page{
+  width:var(--page-w);
+  height:var(--page-h);
+  background:#fff;
+  box-shadow:0 20px 48px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.2);
+  position:relative;
+  overflow:hidden;
+  break-after:page;
+  page-break-after:always;
+  flex:0 0 auto;
+}
+.page:last-child{break-after:auto;page-break-after:auto}
+
+/* Body pages: top reserves space for header (10mm pad + ~4mm rule),
+   bottom reserves space for footer (8pt text + 10mm pad ≈ 14mm).
+   Increased bottom padding 24→28mm to prevent text overlapping the footer. */
+.page.body .pad{
+  padding:30mm var(--page-pad) 28mm;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.page .pad{padding:var(--page-pad);height:100%;display:flex;flex-direction:column}
+
+/* ---------- RUNNING HEADER / FOOTER ---------- */
+.run-h{
+  position:absolute; top:0; left:0; right:0;
+  padding:10mm var(--page-pad) 0;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:nowrap; white-space:nowrap;
+  font:700 8pt/1 var(--font-display);
+  text-transform:uppercase; letter-spacing:.18em;
+  color:var(--da-n-500);
+  z-index:5;
+}
+.run-h>span{flex:0 0 auto;white-space:nowrap}
+.run-h::before{content:"";position:absolute;left:var(--page-pad);right:var(--page-pad);top:14mm;height:1.5px;background:var(--da-green)}
+.run-h .l{color:var(--da-green);font-weight:900}
+.run-h .l::before{content:"■ ";color:var(--da-yellow)}
+
+.run-f{
+  position:absolute; bottom:0; left:0; right:0;
+  padding:0 var(--page-pad) 10mm;
+  display:flex; align-items:center; justify-content:space-between;
+  font:700 8pt/1 var(--font-mono);
+  color:var(--da-n-500);
+  letter-spacing:.12em;
+  background:#fff; /* opaque so any overflow stays hidden behind it */
+  z-index:5;
+}
+.run-f::before{
+  content:""; position:absolute;
+  left:var(--page-pad); right:var(--page-pad);
+  bottom:calc(10mm + 8pt + 3mm);
+  height:1px; background:var(--rule);
+}
+.run-f .pg{font-family:var(--font-display);font-weight:900;color:var(--da-n-900);letter-spacing:.02em;font-size:11pt;white-space:nowrap}
+.run-f .pg em{font-style:normal;color:var(--da-green);display:inline-block;padding:0 2pt}
+
+/* ---------- COVER (P1) ---------- */
+.cover.va{background:var(--da-green-800);color:#fff}
+.cover.va .bg{position:absolute;inset:0;background:radial-gradient(90mm 60mm at 85% 20%,rgba(244,178,35,.45),transparent 70%),linear-gradient(135deg,#0a3619 0%,#0f5028 45%,#005151 100%)}
+.cover.va .rows{position:absolute;inset:40% -25% -15%;background:repeating-linear-gradient(92deg,rgba(244,178,35,0) 0,rgba(244,178,35,0) 42px,rgba(244,178,35,.28) 42px,rgba(244,178,35,.28) 44px,rgba(244,178,35,0) 44px,rgba(244,178,35,0) 46px,rgba(255,255,255,.08) 46px,rgba(255,255,255,.08) 50px);transform:perspective(600px) rotateX(72deg);transform-origin:center top;-webkit-mask-image:linear-gradient(transparent 0%,#000 20%,#000 85%,transparent 100%);mask-image:linear-gradient(transparent 0%,#000 20%,#000 85%,transparent 100%)}
+.cover.va::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10mm;background:var(--da-yellow);z-index:3}
+.cover.va::after{content:"SPRAI · SMART SPRAYING TECHNOLOGY · AI · SELECTIVE · SOYBEAN · CORN · COTTON · SUGARCANE · ";position:absolute;right:6mm;top:0;bottom:0;width:6mm;writing-mode:vertical-rl;text-orientation:mixed;font:700 7pt/6mm var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;z-index:3}
+.cover.va .pad{padding-left:26mm;padding-right:22mm}
+
+.cover .pad{position:relative;z-index:2;justify-content:space-between;padding:22mm 18mm}
+.cover .top{display:flex;align-items:flex-start;justify-content:space-between}
+.cover .logo{font:900 32pt/1 var(--font-display);letter-spacing:-.03em}
+.cover .logo .tm{font-size:10pt;vertical-align:super;margin-left:2px;font-weight:700}
+.cover.va .logo{color:#fff}
+.cover.va .logo .tm{color:var(--da-yellow)}
+
+.cover .year-pill{display:flex;flex-direction:column;align-items:flex-end;gap:3mm}
+.cover .year{font:900 11pt/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;padding:3mm 5mm;border-radius:1mm}
+.cover.va .year{background:var(--da-yellow);color:var(--da-n-900)}
+.cover .doc-tag{font:500 8pt/1.3 var(--font-mono);opacity:.7;letter-spacing:.1em;text-transform:uppercase}
+
+.cover .title-block{margin-top:auto}
+.cover .eb{font:800 10pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.28em}
+.cover.va .eb{color:var(--da-yellow)}
+.cover h1{font-family:var(--font-display);font-weight:900;font-size:92pt;line-height:.85;letter-spacing:-.045em;margin:6pt 0 0}
+.cover h1 em{font-style:normal;display:inline-block}
+.cover.va h1 em{color:var(--da-yellow)}
+
+.cover .client-stripe{display:grid;grid-template-columns:repeat(3,1fr);gap:14mm;margin-top:14mm;padding:6mm 0;border-top:2px solid;border-bottom:2px solid;font:500 10pt/1.3 var(--font-body)}
+.cover.va .client-stripe{border-color:var(--da-yellow);color:#fff}
+.cover .client-stripe .k{font:800 8pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.2em;opacity:.65}
+.cover.va .client-stripe .k{color:var(--da-yellow);opacity:1}
+.cover .client-stripe .v{font:800 13pt/1.2 var(--font-display);letter-spacing:-.01em;margin-top:3mm}
+
+.cover .quote-block{margin-top:8mm;max-width:145mm;font:500 italic 11pt/1.55 var(--font-body);opacity:.85;padding-left:6mm;border-left:3px solid var(--da-yellow)}
+
+.cover .bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:14mm;gap:6mm}
+.cover .val{font:500 9pt/1.3 var(--font-body);opacity:.8;max-width:90mm}
+.cover .val .k{font:800 8pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.16em;display:block;margin-bottom:3pt}
+.cover.va .val .k{color:var(--da-yellow);opacity:1}
+.cover .doc-id{font:700 9pt/1.3 var(--font-mono);opacity:.8;text-align:right;letter-spacing:.08em}
+
+/* ---------- TYPOGRAPHY ---------- */
+.sect-eb{display:inline-block;font:900 9pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.24em;color:#fff;background:var(--da-green);padding:3mm 5mm;margin:0 0 7mm}
+.sect-eb .num{color:var(--da-yellow);margin-right:4mm}
+
+h2.sect{font:900 32pt/1 var(--font-display);letter-spacing:-.028em;color:var(--ink);margin:0 0 7mm}
+h2.sect em{font-style:normal;color:var(--da-green)}
+
+h3.sub{font:800 13pt/1.2 var(--font-display);letter-spacing:-.01em;margin:0 0 4mm;color:var(--ink);display:flex;align-items:center;gap:4mm}
+h3.sub::before{content:"";width:5mm;height:5mm;background:var(--da-yellow);border-radius:50%;flex:0 0 auto}
+
+.lead{font:400 11.5pt/1.55 var(--font-body);color:var(--da-n-700);margin:0 0 7mm;max-width:160mm}
+.lead strong{color:var(--ink)}
+
+p{font:400 10.5pt/1.6 var(--font-body);color:var(--da-n-700);margin:0 0 4mm}
+p strong{color:var(--ink)}
+p.muted{color:var(--da-n-500);font-size:9pt}
+
+/* ---------- KPI ROW (P2) ---------- */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:7mm 0;border:2px solid var(--ink);background:var(--da-paper);flex-shrink:0}
+.kpi{padding:6mm 5mm;border-right:2px solid var(--ink);position:relative;overflow:hidden}
+.kpi:last-child{border-right:0}
+.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:4mm;background:var(--da-green)}
+.kpi:nth-child(2)::before{background:var(--da-yellow)}
+.kpi:nth-child(3)::before{background:var(--da-teal)}
+.kpi .n{font:900 40pt/1 var(--font-display);letter-spacing:-.04em;color:var(--ink);margin-top:6mm}
+.kpi .n .u{font-size:14pt;color:var(--da-n-500);margin-left:2pt;font-weight:800}
+.kpi .l{font:900 9pt/1.2 var(--font-display);text-transform:uppercase;letter-spacing:.18em;color:var(--da-green);margin-top:3mm}
+.kpi:nth-child(2) .l{color:var(--da-yellow-700)}
+.kpi:nth-child(3) .l{color:var(--da-teal)}
+.kpi .ds{font:400 8.5pt/1.45 var(--font-body);color:var(--da-n-600);margin-top:3mm}
+
+/* ---------- CALLOUT ---------- */
+.callout{border-left:5px solid var(--da-yellow);background:var(--da-green);color:#fff;padding:4mm 6mm;margin:3mm 0}
+.callout .k{font:900 9pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.2em;color:var(--da-yellow)}
+.callout p{font-size:9.5pt;line-height:1.55;margin:3mm 0 0;color:rgba(255,255,255,.92)}
+.callout p strong{color:var(--da-yellow)}
+
+/* ---------- TWO-COLUMN EQ GRID (P6) ---------- */
+.eq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5mm;margin-top:4mm}
+.eq-grid.eq-grid-3{grid-template-columns:repeat(3,1fr);gap:4mm}
+.eq{border:1.5px solid var(--ink);padding:5mm 6mm;background:#fff;position:relative}
+.eq:nth-child(1){background:var(--da-green);color:#fff}
+.eq:nth-child(1) h4{color:#fff}
+.eq:nth-child(1) li{color:rgba(255,255,255,.88)}
+.eq:nth-child(1) li::before{background:var(--da-yellow)}
+.eq:nth-child(1) .badge{background:var(--da-yellow);color:var(--da-n-900)}
+/* En 3 columnas, la 3ra es teal */
+.eq-grid-3 .eq:nth-child(3){background:var(--da-teal);color:#fff;border-color:var(--da-teal)}
+.eq-grid-3 .eq:nth-child(3) h4{color:#fff}
+.eq-grid-3 .eq:nth-child(3) li{color:rgba(255,255,255,.88)}
+.eq-grid-3 .eq:nth-child(3) li::before{background:var(--da-yellow)}
+.eq-grid-3 .eq:nth-child(3) .badge{background:var(--da-yellow);color:var(--da-n-900)}
+.eq .h{display:flex;align-items:center;gap:3mm;margin-bottom:4mm}
+.eq .badge{width:9mm;height:9mm;background:var(--da-green);color:#fff;display:flex;align-items:center;justify-content:center;font:900 12pt/1 var(--font-display)}
+.eq h4{font:900 12pt/1.1 var(--font-display);margin:0;color:var(--ink);text-transform:uppercase;letter-spacing:.04em}
+.eq ul{margin:0;padding:0;list-style:none}
+.eq li{font:400 9.5pt/1.5 var(--font-body);color:var(--da-n-700);padding-left:5mm;position:relative;margin-bottom:1mm}
+.eq li::before{content:"";position:absolute;left:0;top:2.3mm;width:2.5mm;height:2.5mm;background:var(--da-green)}
+
+/* ---------- PRICE HERO (P3) ---------- */
+.price-hero{background:linear-gradient(135deg,var(--da-green-800) 0%,var(--da-teal) 100%);color:#fff;padding:5mm 8mm 5mm 10mm;display:grid;grid-template-columns:1fr auto;align-items:center;gap:6mm;margin:4mm 0;position:relative;overflow:visible;flex:0 0 auto}
+.price-hero>div:first-child{min-width:0}
+.price-hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3mm;background:var(--da-yellow)}
+.price-hero>*{position:relative;z-index:1}
+.price-hero .label{font:900 8.5pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.22em;color:var(--da-yellow)}
+.price-hero h3{font:900 17pt/1.15 var(--font-display);letter-spacing:-.02em;margin:3mm 0 0;color:#fff;display:block}
+.price-hero h3::before{content:none;display:none}
+.price-hero p{font:400 9.5pt/1.5 var(--font-body);color:rgba(255,255,255,.8);margin:3mm 0 0;max-width:90mm}
+.price-hero p strong{color:var(--da-yellow);font-weight:800}
+.price-hero .n{font:900 36pt/1.05 var(--font-display);color:var(--da-yellow);letter-spacing:-.035em;text-align:right;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-end;gap:2mm}
+.price-hero .n .u{display:block;font:800 11pt/1 var(--font-display);color:#fff;letter-spacing:.16em;text-transform:uppercase;margin:0 0 1mm}
+.price-hero .n [data-bind-price]{display:block;line-height:1}
+.price-hero .n .s{display:block;font:700 7.5pt/1.2 var(--font-display);text-transform:uppercase;letter-spacing:.18em;color:rgba(255,255,255,.8);margin:2mm 0 0;text-align:right}
+
+/* ---------- TABLES ---------- */
+table.prop{width:100%;border-collapse:collapse;margin:3mm 0;font:400 10pt/1.4 var(--font-body)}
+table.prop th,table.prop td{padding:3mm 4mm;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+table.prop thead th{font:900 8.5pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.18em;color:#fff;background:var(--da-ink);border-bottom:0;padding:3mm 4mm}
+table.prop td.num,table.prop th.num{text-align:center;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+table.prop tr.total td{border-top:2px solid var(--ink);border-bottom:0;font-weight:900;font-family:var(--font-display);padding-top:4mm;font-size:11pt}
+table.prop tr.hl td{background:var(--da-green-50)}
+table.prop tr.hl + tr.hl td{background:var(--da-yellow-50)}
+table.prop tr.total td.num{color:var(--da-green);font-size:14pt}
+table.prop .dsc{color:var(--da-red);font-weight:800}
+
+/* ---------- CROPS GRID (P4) ---------- */
+.crops{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:4mm;border:2px solid var(--ink)}
+.crop{padding:5mm 3mm;text-align:center;background:#fff;border-right:1.5px solid var(--ink);position:relative}
+.crop:last-child{border-right:0}
+.crop:nth-child(1){background:var(--da-green);color:#fff}
+.crop:nth-child(2){background:var(--da-yellow)}
+.crop .nm{font:900 10pt/1 var(--font-display);color:inherit;text-transform:uppercase;letter-spacing:.1em}
+.crop .v{font:900 16pt/1 var(--font-display);margin-top:4mm;letter-spacing:-.02em;color:inherit}
+.crop:nth-child(n+3) .v{color:var(--da-green)}
+.crop .u{font-size:7.5pt;margin-top:2mm;font-family:var(--font-mono);letter-spacing:.06em;opacity:.7;text-transform:uppercase}
+
+/* ---------- TIMELINE (P5) ---------- */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:4mm 0 6mm;border:2px solid var(--ink);overflow:hidden}
+.tl{padding:6mm 5mm;border-right:2px solid var(--ink);position:relative}
+.tl:last-child{border-right:0}
+.tl:nth-child(1){background:var(--da-green);color:#fff}
+.tl:nth-child(2){background:var(--da-yellow);color:var(--da-n-900)}
+.tl:nth-child(3){background:#fff;color:var(--ink)}
+.tl .year{font:900 9pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.18em;opacity:.85}
+.tl .pct{font:900 38pt/1 var(--font-display);letter-spacing:-.04em;margin-top:4mm}
+.tl:nth-child(3) .pct{color:var(--ink)}
+.tl .pct.lista{font-size:22pt;margin-top:7mm;color:var(--ink)}
+.tl .d{font:500 9pt/1.5 var(--font-body);margin-top:4mm;opacity:.85}
+
+/* ---------- COND GRID ---------- */
+.cond-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3mm;margin:3mm 0}
+.cond{border-left:5px solid var(--da-yellow);padding:3mm 5mm;background:#fff}
+.cond .k{font:900 8.5pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.18em;color:var(--da-green)}
+.cond .v{font:700 10pt/1.3 var(--font-display);letter-spacing:-.005em;color:var(--ink);margin-top:2mm}
+
+/* ---------- CONTACT (P7) ---------- */
+.contact{margin-top:auto;background:var(--da-ink);color:#fff;padding:7mm 8mm;display:flex;justify-content:space-between;align-items:center;gap:10mm;position:relative;overflow:hidden}
+.contact>div:first-child{flex:1 1 auto;min-width:0}
+.contact .info{flex:0 0 auto}
+.contact::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3mm;background:var(--da-yellow)}
+.contact::after{content:"→";position:absolute;right:-4mm;bottom:-14mm;font:900 100pt/1 var(--font-display);color:rgba(244,178,35,.12);pointer-events:none}
+.contact .nm{font:900 13pt/1.2 var(--font-display);letter-spacing:-.01em}
+.contact .rol{font:600 9pt/1.3 var(--font-body);opacity:.88;margin-top:3mm;color:var(--da-yellow)}
+.contact .info{text-align:right;font:500 10pt/1.5 var(--font-body);position:relative;z-index:1}
+.contact .info a{color:var(--da-yellow);text-decoration:none}
+
+/* ---------- SUMMARY (P7) ---------- */
+.summary{background:var(--da-paper);border:2px solid var(--ink);padding:6mm 7mm;position:relative;flex-shrink:0}
+.summary::before{content:"";position:absolute;left:0;top:0;height:4mm;width:50mm;background:var(--da-green)}
+.summary::after{content:"";position:absolute;left:50mm;top:0;height:4mm;width:30mm;background:var(--da-yellow)}
+.summary h3{margin-top:3mm}
+
+/* Resumen del cierre: TOTAL destacado */
+table.prop.summary-table tr.row-highlight.row-bold td{
+  background:var(--da-green-50);
+  border-top:2px solid var(--da-green);
+  border-bottom:2px solid var(--da-green);
+  padding-top:4mm;padding-bottom:4mm;
+  font-size:11pt;
+}
+table.prop.summary-table tr.row-highlight.row-bold td.strong-green{
+  color:var(--da-green);
+  font-size:15pt;
+  font-family:var(--font-display);
+  font-weight:900;
+  letter-spacing:-.01em;
+}
+
+/* P5: Notas acordadas con el cliente */
+.finance-notes{
+  margin-top:4mm;
+  padding:5mm 6mm;
+  background:var(--da-paper);
+  border-left:4px solid var(--da-teal);
+  border-radius:0 4px 4px 0;
+}
+.finance-notes .k{
+  font:900 8.5pt/1 var(--font-display);
+  text-transform:uppercase;letter-spacing:.18em;
+  color:var(--da-teal);
+  display:block;
+  margin-bottom:3mm;
+}
+.finance-notes .v{
+  font:400 10pt/1.55 var(--font-body);
+  color:var(--da-n-700);
+  white-space:pre-wrap;
+}
+
+/* ---------- PRINT ---------- */
+@media print{
+  html,body{background:#fff}
+  .stage{padding:0;gap:0;margin-left:0!important}
+  .page{box-shadow:none;margin:0;break-after:page;page-break-after:always}
+  .page:last-child{break-after:auto;page-break-after:auto}
+  @page{size:A4;margin:0}
+  /* Hide editor panel and all its UI in print */
+  .editor-panel,.editor-toggle,.editor-help{display:none!important}
+}
+
+/* ---------- EDITOR PANEL (only visible on screen) ---------- */
+.editor-panel{
+  position:fixed; top:0; left:0; bottom:0; width:380px;
+  background:#fff; border-right:1px solid var(--da-n-200);
+  box-shadow:2px 0 20px rgba(0,0,0,.15);
+  z-index:1000;
+  display:flex; flex-direction:column;
+  font-family:var(--font-body);
+  transform:translateX(0);
+  transition:transform .25s ease;
+}
+.editor-panel.collapsed{transform:translateX(-380px)}
+.editor-panel .ed-header{
+  padding:14px 18px;
+  background:var(--da-green);
+  color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  flex:0 0 auto;
+}
+.editor-panel .ed-header h2{
+  font:800 13px/1.1 var(--font-display);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin:0;
+}
+.editor-panel .ed-header .ed-sub{font:400 10px/1.3 var(--font-body);opacity:.85;margin-top:3px}
+.editor-panel .ed-body{
+  flex:1 1 auto; overflow-y:auto; padding:16px 18px;
+}
+.editor-panel .ed-section.ed-seller{
+  background:var(--da-yellow-50);
+  margin:-16px -18px 16px;
+  padding:16px 18px;
+  border-bottom:2px solid var(--da-yellow);
+}
+.editor-panel .ed-section.ed-seller > .ed-section-title{
+  color:var(--da-yellow-700);
+  border-bottom-color:var(--da-yellow-700);
+}
+
+.editor-panel .ed-section{margin-bottom:22px;border-bottom:1px solid var(--da-n-100);padding-bottom:18px}
+.editor-panel .ed-section:last-child{border-bottom:0}
+.editor-panel .ed-section > .ed-section-title{
+  font:800 10px/1 var(--font-display);
+  text-transform:uppercase;letter-spacing:.14em;
+  color:var(--da-green);
+  margin-bottom:10px; padding-bottom:5px;
+  border-bottom:2px solid var(--da-yellow);
+}
+.editor-panel .ed-field{margin-bottom:10px}
+.editor-panel .ed-field.inline{display:flex;align-items:center;gap:8px}
+.editor-panel .ed-field.inline label{flex:1 1 auto}
+.editor-panel .ed-field.inline input{flex:0 0 110px;text-align:right;font-family:var(--font-mono)}
+.editor-panel .ed-field label{
+  display:block;
+  font:600 10px/1.2 var(--font-display);
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--da-n-600);
+  margin-bottom:4px;
+}
+.editor-panel .ed-field label .ed-optional{
+  text-transform:none;
+  font-weight:400;
+  color:var(--da-n-400);
+  letter-spacing:0;
+  font-size:9px;
+}
+.editor-panel .ed-field input,
+.editor-panel .ed-field textarea,
+.editor-panel .ed-field select{
+  width:100%;
+  font:400 13px/1.4 var(--font-body);
+  padding:7px 10px;
+  border:1px solid var(--da-n-200);
+  border-radius:5px;
+  outline:none;
+  background:#fff;
+  color:var(--ink);
+  box-sizing:border-box;
+}
+.editor-panel .ed-field input:focus,
+.editor-panel .ed-field textarea:focus,
+.editor-panel .ed-field select:focus{
+  border-color:var(--da-green);
+  box-shadow:0 0 0 2px rgba(29,134,73,.18);
+}
+.editor-panel .ed-field textarea{min-height:60px;resize:vertical;font-family:inherit}
+.editor-panel .ed-actions{
+  padding:14px 18px;
+  background:var(--da-n-50);
+  border-top:1px solid var(--da-n-200);
+  display:flex;gap:8px;flex:0 0 auto;
+}
+.editor-panel .ed-actions button{
+  flex:1 1 auto;
+  padding:9px 12px;
+  border:0;
+  border-radius:5px;
+  font:700 11px/1 var(--font-display);
+  text-transform:uppercase;letter-spacing:.08em;
+  cursor:pointer;
+}
+.editor-panel .ed-actions .btn-print{background:var(--da-green);color:#fff}
+.editor-panel .ed-actions .btn-print:hover{background:var(--da-green-700)}
+.editor-panel .ed-actions .btn-reset{background:var(--da-n-200);color:var(--da-n-700)}
+.editor-panel .ed-actions .btn-csv{
+  background:var(--da-teal);color:#fff;
+  flex:0 0 auto;padding:9px 14px;
+}
+.editor-panel .ed-actions .btn-csv:hover{background:var(--da-teal-700)}
+
+.editor-toggle{
+  position:fixed; top:14px; left:394px;
+  width:40px;height:40px;
+  background:var(--da-green);color:#fff;
+  border:0;border-radius:50%;
+  font:900 18px/1 var(--font-display);
+  cursor:pointer;
+  z-index:999;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:left .25s ease;
+}
+.editor-panel.collapsed ~ .editor-toggle{left:14px}
+.editor-toggle:hover{background:var(--da-green-700)}
+
+/* Make room for the editor when it's open */
+body.has-editor .stage{margin-left:380px;transition:margin-left .25s ease}
+body.has-editor.editor-collapsed .stage{margin-left:0}
+
+.editor-help{
+  position:fixed;bottom:14px;right:14px;
+  background:var(--da-ink);color:#fff;
+  padding:10px 14px;
+  border-radius:6px;
+  font:500 11px/1.4 var(--font-body);
+  max-width:240px;
+  z-index:998;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+.editor-help strong{color:var(--da-yellow);display:block;margin-bottom:3px;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+
+/* Indicador del estado de envío al tracking */
+.tracking-status{
+  position:fixed;
+  top:14px; right:14px;
+  z-index:1001;
+  padding:11px 16px;
+  border-radius:6px;
+  font:600 12px/1.4 var(--font-body);
+  box-shadow:0 6px 18px rgba(0,0,0,.2);
+  max-width:340px;
+  display:none;
+  animation:slideInRight .25s ease;
+}
+.tracking-status.tracking-pending{background:var(--da-n-700);color:#fff}
+.tracking-status.tracking-pending::before{
+  content:""; display:inline-block;
+  width:11px;height:11px;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  border-radius:50%;
+  margin-right:8px;vertical-align:-2px;
+  animation:spin .8s linear infinite;
+}
+.tracking-status.tracking-ok{background:var(--da-green);color:#fff}
+.tracking-status.tracking-fail{background:var(--da-red);color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideInRight{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* No mostrar el indicador en impresión */
+@media print{ .tracking-status{display:none!important} }
+
+/* ---------- Dynamic rows editor (precios + resumen) ---------- */
+.ed-help{
+  font:400 11px/1.4 var(--font-body);
+  color:var(--da-n-500);
+  margin:0 0 10px;
+  font-style:italic;
+}
+.ed-rows-editor{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.ed-row{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:5px;
+  padding:8px;
+  background:var(--da-n-50);
+  border:1px solid var(--da-n-100);
+  border-radius:5px;
+}
+.ed-row.highlighted{background:var(--da-green-50);border-color:var(--da-green-200)}
+.ed-row.kind-discount{background:#fdf3d9;border-color:var(--da-yellow-300)}
+.ed-row.kind-discount.highlighted{background:#fdf3d9}
+.ed-row.kind-text{background:var(--da-n-100);border-style:dashed}
+
+.ed-row .row-line-1{
+  display:flex;align-items:center;gap:4px;
+}
+.ed-row .kind-select{
+  flex:1 1 auto;
+  font:600 11px/1 var(--font-body);
+  padding:5px 7px;
+  border:1px solid var(--da-n-200);
+  border-radius:4px;
+  background:#fff;
+  cursor:pointer;
+}
+.ed-row .row-up,
+.ed-row .row-down,
+.ed-row .row-delete{
+  flex:0 0 auto;
+  width:26px;height:26px;
+  background:#fff;
+  border:1px solid var(--da-n-200);
+  color:var(--da-n-500);
+  font:700 13px/1 var(--font-display);
+  cursor:pointer;
+  border-radius:4px;
+  padding:0;
+  transition:all .12s;
+}
+.ed-row .row-up:hover,
+.ed-row .row-down:hover{color:var(--da-green);border-color:var(--da-green)}
+.ed-row .row-delete:hover{color:var(--da-red);border-color:var(--da-red);background:rgba(232,79,62,.08)}
+.ed-row .row-up:disabled,
+.ed-row .row-down:disabled{opacity:.3;cursor:not-allowed}
+
+.ed-row input{
+  font:400 12px/1.3 var(--font-body);
+  padding:5px 7px;
+  border:1px solid var(--da-n-200);
+  border-radius:4px;
+  outline:none;
+  background:#fff;
+  width:100%;
+  box-sizing:border-box;
+}
+.ed-row .label-input{font-weight:500}
+.ed-row .value-input{font-family:var(--font-mono);text-align:right;font-size:11px}
+.ed-row input:focus{border-color:var(--da-green);box-shadow:0 0 0 2px rgba(29,134,73,.15)}
+.ed-row .row-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.ed-row .row-options label{font:500 10px/1 var(--font-body);color:var(--da-n-500);display:flex;align-items:center;gap:3px;cursor:pointer}
+.ed-row .row-options input[type="checkbox"]{width:12px;height:12px}
+
+.add-row{
+  width:100%;
+  padding:8px;
+  background:#fff;
+  color:var(--da-green);
+  border:1.5px dashed var(--da-green-200);
+  border-radius:5px;
+  font:600 11px/1 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:all .15s;
+}
+.add-row:hover{background:var(--da-green-50);border-color:var(--da-green);border-style:solid}
+
+.mini-btn{
+  margin-top:5px;
+  padding:5px 9px;
+  background:var(--da-yellow-50);
+  color:var(--da-yellow-700);
+  border:1px solid var(--da-yellow-300);
+  border-radius:4px;
+  font:600 10px/1 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  cursor:pointer;
+}
+.mini-btn:hover{background:var(--da-yellow);color:var(--da-n-900)}
+
+.ed-advanced{margin-top:8px;border-top:1px dashed var(--da-n-200);padding-top:8px}
+.ed-advanced summary{
+  font:600 10px/1 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--da-n-500);
+  cursor:pointer;
+  padding:4px 0;
+}
+.ed-advanced[open] summary{margin-bottom:8px;color:var(--da-green)}
+
+/* En el documento: variantes de filas de la tabla precios */
+table.prop tr.row-bold td{font-weight:700;color:var(--ink)}
+table.prop tr.row-highlight td{background:var(--da-green-50)}
+table.prop tr.row-highlight.row-bold td{background:var(--da-green-50);font-weight:700}
+
+/* Tabla de precios: subtotal, metros, total */
+table.prop tr.row-subtotal td{
+  border-top:2px solid var(--ink);
+  background:var(--da-n-50);
+  padding-top:4mm;padding-bottom:3mm;
+  font-size:10.5pt;
+}
+table.prop tr.row-meters td{
+  background:var(--da-n-50);
+  padding-top:1mm;padding-bottom:3mm;
+  border-bottom:0;
+  color:var(--da-n-600);
+  font-size:10pt;
+}
+table.prop tr.row-grandtotal td{
+  background:var(--da-green-50);
+  border-top:2px solid var(--da-green);
+  border-bottom:0;
+  padding:5mm 4mm;
+}
+table.prop tr.row-grandtotal td.num{
+  color:var(--da-green);
+  font-size:16pt;
+  font-family:var(--font-display);
+  font-weight:900;
+}
+table.prop tr.row-grandtotal td:first-child strong{
+  font-family:var(--font-display);
+  font-size:11pt;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+/* ---------- SCREEN SCALING (mobile preview) ---------- */
+@media screen and (max-width:900px){
+  .stage{transform-origin:center top;transform:scale(.65)}
+}
+</style>
+</head>
+<body class="has-editor">
+
+<!-- ===========================================================
+     PANEL DE EDICIÓN (sólo visible en pantalla, no en impresión)
+     =========================================================== -->
+<aside class="editor-panel" id="editorPanel">
+  <div class="ed-header">
+    <div>
+      <h2>Editor de Propuesta</h2>
+      <div class="ed-sub">Los cambios se ven en vivo · No aparece en el PDF</div>
+    </div>
+  </div>
+
+  <div class="ed-body">
+
+    <div class="ed-section ed-seller">
+      <div class="ed-section-title">Vendedor (configuración inicial)</div>
+      <p class="ed-help">Configurá una sola vez tus iniciales. Se usan para el ID del documento y el tracking.</p>
+      <div class="ed-field inline"><label>Iniciales (2-3 letras)</label>
+        <input type="text" data-input="sellerInitials" value="" placeholder="AP" maxlength="4" style="text-transform:uppercase;font-weight:700;text-align:center;font-family:var(--font-mono);"></div>
+      <div class="ed-field"><label>Nombre completo del vendedor</label>
+        <input type="text" data-input="sellerName" value="" placeholder="Alberto Peirano"></div>
+      <button type="button" class="mini-btn" data-action="testTracking" style="margin-top:6px;">Probar conexión con tracking</button>
+    </div>
+
+    <div class="ed-section">
+      <div class="ed-section-title">Página 1 · Cliente y validez</div>
+      <div class="ed-field"><label>Nombre del cliente</label>
+        <input type="text" data-input="clientName" value="El Escondido"></div>
+      <div class="ed-field"><label>Modalidad</label>
+        <input type="text" data-input="clientMode" value="Cliente final"></div>
+      <div class="ed-field"><label>Validez de la oferta</label>
+        <input type="text" data-input="validUntil" value="">
+        <button type="button" class="mini-btn" data-action="autoValidUntil">Calcular: hoy + 1 mes</button>
+      </div>
+      <div class="ed-field"><label>ID del documento <span class="ed-optional">(se genera solo)</span></label>
+        <input type="text" data-input="docId" value="" readonly style="background:var(--da-n-50);cursor:not-allowed;">
+        <p class="ed-help" style="margin:4px 0 0;">Formato: DOC-AAAA-NNN. El número se obtiene del sistema centralizado para evitar duplicados. <span id="counterInfo"></span></p>
+      </div>
+      <div class="ed-field"><label>Año</label>
+        <input type="text" data-input="year" value="2026"></div>
+      <details class="ed-advanced">
+        <summary>Opciones avanzadas de portada</summary>
+        <div class="ed-field"><label>Tag de esquina superior</label>
+          <input type="text" data-input="docTag" value="Confidencial &amp; Exclusiva"></div>
+        <div class="ed-field"><label>Eyebrow del título</label>
+          <input type="text" data-input="proposalEyebrow" value="Propuesta Comercial · SprAI"></div>
+        <div class="ed-field"><label>Cita de portada</label>
+          <textarea data-input="quote">El valor de una empresa no está dado solamente por los ingresos que genera, sino también por las personas que hacen que esto pase.</textarea></div>
+      </details>
+    </div>
+
+    <div class="ed-section">
+      <div class="ed-section-title">Página 4 · Precios del presupuesto</div>
+      <p class="ed-help">Editá las líneas que componen el precio por metro. Tipos: <strong>Precio</strong> (suma), <strong>Bonificación</strong> (resta) o <strong>Texto libre</strong> (no afecta el cálculo). El total se calcula automáticamente.</p>
+      <div id="priceRowsEditor" class="ed-rows-editor">
+        <!-- Filas renderizadas por JS -->
+      </div>
+      <button type="button" class="add-row" data-action="addPriceRow">＋ Agregar línea</button>
+
+      <div class="ed-field inline" style="margin-top:12px;border-top:1px solid var(--da-n-100);padding-top:10px;">
+        <label>Cantidad de metros del equipo</label>
+        <input type="text" data-input="quantityMeters" value="36">
+      </div>
+      <p class="ed-help" style="margin:6px 0 0;">El total se calcula como: subtotal por metro × cantidad de metros.</p>
+    </div>
+
+    <div class="ed-section">
+      <div class="ed-section-title">Página 4 · Licencias por cultivo (USD/año)</div>
+      <div class="ed-field inline"><label>Soja</label>
+        <input type="text" data-input="cropSoja" value="6.000"></div>
+      <div class="ed-field inline"><label>Maíz</label>
+        <input type="text" data-input="cropMaiz" value="4.000"></div>
+      <div class="ed-field inline"><label>Maní</label>
+        <input type="text" data-input="cropMani" value="7.000"></div>
+      <div class="ed-field inline"><label>Algodón</label>
+        <input type="text" data-input="cropAlgodon" value="10.000"></div>
+      <div class="ed-field inline"><label>Caña de azúcar</label>
+        <input type="text" data-input="cropCana" value="8.000"></div>
+    </div>
+
+    <div class="ed-section">
+      <div class="ed-section-title">Página 5 · Reserva y entrega</div>
+      <div class="ed-field inline"><label>% Seña reserva</label>
+        <input type="text" data-input="reservePct" value="5"></div>
+      <div class="ed-field inline"><label>% Saldo (despacho)</label>
+        <input type="text" data-input="balancePct" value="95"></div>
+      <div class="ed-field"><label>Fecha estimada de entrega</label>
+        <input type="text" data-input="deliveryDate" value="Marzo / Abril de 2026"></div>
+      <div class="ed-field inline"><label>Garantía (meses)</label>
+        <input type="text" data-input="warrantyMonths" value="12"></div>
+      <div class="ed-field"><label>Notas acordadas con el cliente <span class="ed-optional">(opcional)</span></label>
+        <textarea data-input="financeNotes" placeholder="Ej.: Pago a 60 días sin interés, IVA incluido, financiación a través de Banco Galicia..."></textarea>
+        <p class="ed-help" style="margin:4px 0 0;">Si dejás esto vacío, no aparece en el PDF. Si lo llenás, aparece como bloque destacado en la página 5.</p>
+      </div>
+    </div>
+
+    <div class="ed-section">
+      <div class="ed-section-title">Contacto comercial</div>
+      <div class="ed-field"><label>Nombre</label>
+        <input type="text" data-input="contactName" value="Alberto Peirano"></div>
+      <div class="ed-field"><label>Cargo</label>
+        <input type="text" data-input="contactRole" value="Responsable Comercial — DeepAgro"></div>
+      <div class="ed-field"><label>Teléfono</label>
+        <input type="text" data-input="contactPhone" value="+54 9 341 6825723"></div>
+      <div class="ed-field"><label>Email</label>
+        <input type="text" data-input="contactEmail" value="apeirano@deepagro.com"></div>
+    </div>
+
+  </div>
+
+  <div class="ed-actions">
+    <button class="btn-reset" id="btnReset" title="Restablecer todos los valores">Restablecer</button>
+    <button class="btn-csv" id="btnExportCsv" title="Descargar CSV de tracking sin imprimir">CSV</button>
+    <button class="btn-print" id="btnPrint">Imprimir / Guardar PDF</button>
+  </div>
+</aside>
+
+<button class="editor-toggle" id="editorToggle" title="Mostrar/ocultar editor">≡</button>
+
+<div class="editor-help">
+  <strong>💡 Cómo usar</strong>
+  Editá los campos del panel — los cambios se ven en vivo. Cuando termines, hacé clic en <em>"Imprimir / Guardar PDF"</em>. El panel no aparece en el PDF.
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- ============================================================
+       P1 · PORTADA
+       ============================================================ -->
+  <section class="page cover va" id="page-cover">
+    <div class="bg"></div>
+    <div class="rows"></div>
+    <div class="pad">
+      <div class="top">
+        <div class="logo">DeepAgro<span class="tm">®</span></div>
+        <div class="year-pill">
+          <div class="year" data-bind="year">2026</div>
+          <div class="doc-tag" data-bind="docTag">Confidencial &amp; Exclusiva</div>
+        </div>
+      </div>
+
+      <div class="title-block">
+        <div class="eb" data-bind="proposalEyebrow">Propuesta Comercial · SprAI</div>
+        <h1>Propuesta<br><em>Comercial.</em></h1>
+
+        <div class="client-stripe">
+          <div>
+            <div class="k">De</div>
+            <div class="v">DeepAgro®</div>
+          </div>
+          <div>
+            <div class="k">Para</div>
+            <div class="v" data-bind="clientName">El Escondido</div>
+          </div>
+          <div>
+            <div class="k">Modalidad</div>
+            <div class="v" data-bind="clientMode">Cliente final</div>
+          </div>
+        </div>
+
+        <div class="quote-block" data-bind="quote">El valor de una empresa no está dado solamente por los ingresos que genera, sino también por las personas que hacen que esto pase.</div>
+      </div>
+
+      <div class="bottom">
+        <div class="val">
+          <span class="k">Validez</span>
+          <span data-bind="validUntil">20 de noviembre de 2025</span>
+        </div>
+        <div class="doc-id" data-bind="docId">DOC-2026-ESC-001</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       P2 · OBJETIVO + ESQUEMA
+       ============================================================ -->
+  <section class="page body">
+    <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
+    <div class="pad">
+      <div class="sect-eb"><span class="num">01</span>Objetivo</div>
+      <h2 class="sect">Innovación en agricultura <em>inteligente.</em></h2>
+      <p class="lead">
+        <strong>SprAI</strong> es un sistema de aplicación selectiva basado en inteligencia artificial y visión
+        artificial, que permite la <strong>detección milimétrica de malezas</strong> sobre cultivos en cualquier
+        estadio. Permite aplicar herbicidas de forma eficiente y selectiva, con ahorros de hasta el 70% en
+        insumos, menor uso de agua y mejor timing de control.
+      </p>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="n">70<span class="u">%</span></div>
+          <div class="l">Ahorro en insumos</div>
+          <div class="ds">Reducción significativa en el uso de herbicidas, validada a campo.</div>
+        </div>
+        <div class="kpi">
+          <div class="n">95<span class="u">+</span></div>
+          <div class="l">Pulverizadoras instaladas</div>
+          <div class="ds">Equipos funcionando exitosamente en Argentina.</div>
+        </div>
+        <div class="kpi">
+          <div class="n">8<span class="u"> años</span></div>
+          <div class="l">Experiencia a campo</div>
+          <div class="ds">Desarrollo y perfeccionamiento continuo.</div>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:6mm;">Una propuesta única que redefine la forma de aplicar tecnología en el agro</h3>
+      <p>
+        DeepAgro combina ciencia, agronomía y un equipo técnico comprometido con brindar
+        <strong>soporte cercano y personalizado</strong>. SprAI redefine la forma de aplicar herbicidas:
+        menos insumos, menos agua, menos traslados de envases y mejores resultados en control de malezas.
+      </p>
+
+      <div class="callout">
+        <span class="k">Lo que recibe <span data-bind="clientName">El Escondido</span></span>
+        <p>
+          Equipo SprAI completo con instalación y puesta en marcha incluidas, capacitación al equipo de
+          trabajo, <strong>12 meses de garantía de fábrica</strong> y soporte técnico especializado
+          (remoto y presencial) durante toda la vida útil del equipo.
+        </p>
+      </div>
+    </div>
+    <div class="run-f"><span>DEEPAGRO · SPRAI</span><span class="pg">02 <em>/</em> 06</span></div>
+  </section>
+
+  <!-- ============================================================
+       P3 · COMPOSICIÓN DEL EQUIPO
+       ============================================================ -->
+  <section class="page body">
+    <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
+    <div class="pad">
+      <div class="sect-eb"><span class="num">02</span>Producto</div>
+      <h2 class="sect">Composición del equipo <em>SprAI.</em></h2>
+      <p class="lead">
+        Sistema completo de aplicación selectiva: hardware, software y servicios de instalación,
+        capacitación y soporte. Diseñado para operar 24/7 con la máxima precisión.
+      </p>
+
+      <div class="eq-grid eq-grid-3">
+        <div class="eq">
+          <div class="h"><span class="badge">1</span><h4>Módulos SprAI</h4></div>
+          <ul>
+            <li>Un módulo cada <strong>2 metros</strong> de botalón</li>
+            <li>Portapicos a 40 cm con pastillas Teejet 4003 E</li>
+            <li>Electroválvula en cada antigoteo</li>
+            <li>Compensación Ramsey para control de presión</li>
+            <li>Soportería de acero inoxidable</li>
+          </ul>
+        </div>
+        <div class="eq">
+          <div class="h"><span class="badge">2</span><h4>Sistema eléctrico</h4></div>
+          <ul>
+            <li>Instalación con cableado a batería actual</li>
+            <li>Caja de potencia con fusilera</li>
+            <li>Módulo de cabina para control</li>
+          </ul>
+        </div>
+        <div class="eq">
+          <div class="h"><span class="badge">3</span><h4>Iluminación</h4></div>
+          <ul>
+            <li>Luces LED para aplicación nocturna</li>
+            <li>Un faro cada metro de botalón</li>
+            <li>Optimización para trabajo <strong>24/7</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="sub" style="margin-top:5mm;">Servicios y garantía incluidos</h3>
+      <div class="cond-grid">
+        <div class="cond"><div class="k">Instalación completa</div><div class="v">Montaje, cableado y puesta a punto en campo.</div></div>
+        <div class="cond"><div class="k">Capacitación</div><div class="v">Formación al equipo de trabajo del cliente.</div></div>
+        <div class="cond"><div class="k">Garantía de fábrica</div><div class="v">12 meses de cobertura completa por DeepAgro.</div></div>
+        <div class="cond"><div class="k">Soporte técnico</div><div class="v">Asistencia remota y presencial especializada.</div></div>
+      </div>
+    </div>
+    <div class="run-f"><span>DEEPAGRO · SPRAI</span><span class="pg">03 <em>/</em> 06</span></div>
+  </section>
+
+  <!-- ============================================================
+       P4 · PRECIOS + LICENCIAS POR CULTIVO
+       ============================================================ -->
+  <section class="page body">
+    <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
+    <div class="pad">
+      <div class="sect-eb"><span class="num">03</span>Precios</div>
+      <h2 class="sect">Precios por <em>metro.</em></h2>
+      <p class="lead">
+        Modelo <strong>SMART</strong>: incluye el hardware completo, software base de barbecho con
+        <strong>licencia sin vencimiento</strong>, instalación y puesta en marcha. Las licencias por
+        cultivo son anuales y opcionales.
+      </p>
+
+      <table class="prop">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th class="num">Modelo SMART</th>
+          </tr>
+        </thead>
+        <tbody data-bind-table="priceRows">
+          <!-- Filas renderizadas dinámicamente desde el panel -->
+        </tbody>
+      </table>
+
+      <h3 class="sub" style="margin-top:5mm;">Licencias por cultivo (anuales · opcionales)</h3>
+      <div class="crops">
+        <div class="crop"><div class="nm">Soja</div><div class="v">$<span data-bind="cropSoja">6.000</span></div><div class="u">USD/año · COMERCIAL</div></div>
+        <div class="crop"><div class="nm">Maíz</div><div class="v">$<span data-bind="cropMaiz">4.000</span></div><div class="u">USD/año · COMERCIAL</div></div>
+        <div class="crop"><div class="nm">Maní</div><div class="v">$<span data-bind="cropMani">7.000</span></div><div class="u">EN DESARROLLO</div></div>
+        <div class="crop"><div class="nm">Algodón</div><div class="v">$<span data-bind="cropAlgodon">10.000</span></div><div class="u">EN DESARROLLO</div></div>
+        <div class="crop"><div class="nm">Caña Az.</div><div class="v">$<span data-bind="cropCana">8.000</span></div><div class="u">EN DESARROLLO</div></div>
+      </div>
+      <p class="muted" style="margin-top:3mm;">
+        <strong>Trigo, Poroto y Girasol:</strong> en desarrollo. Las licencias marcadas como
+        "En desarrollo" tienen precio orientativo y estarán disponibles a medida que se complete su validación
+        técnica y comercial. Las licencias actualmente comerciales son <strong>Soja</strong> y <strong>Maíz</strong>.
+      </p>
+
+      <p class="muted" style="margin-top:4mm;font-size:8.5pt;">Valores expresados en USD sin IVA. Instalación y puesta en marcha incluidas en el precio del equipo.</p>
+    </div>
+    <div class="run-f"><span>DEEPAGRO · SPRAI</span><span class="pg">04 <em>/</em> 06</span></div>
+  </section>
+
+  <!-- ============================================================
+       P5 · RESERVA Y ENTREGA
+       ============================================================ -->
+  <section class="page body">
+    <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
+    <div class="pad">
+      <div class="sect-eb"><span class="num">04</span>Operación</div>
+      <h2 class="sect">Reserva y <em>entrega.</em></h2>
+      <p class="lead">
+        Para garantizar la fabricación y la fecha estimada de entrega, se requiere una
+        <strong>seña del <span data-bind="reservePct">5</span>%</strong> sobre el valor del equipo.
+        El equipo se despacha una vez completado el <strong>pago total</strong>.
+      </p>
+
+      <h3 class="sub">Hitos</h3>
+      <div class="timeline">
+        <div class="tl">
+          <div class="year">Reserva</div>
+          <div class="pct"><span data-bind="reservePct">5</span>%</div>
+          <div class="d">Seña al confirmar la propuesta — reserva el lugar en la línea de fabricación.</div>
+        </div>
+        <div class="tl">
+          <div class="year">Despacho</div>
+          <div class="pct"><span data-bind="balancePct">95</span>%</div>
+          <div class="d">Saldo previo al despacho — el equipo sale de fábrica una vez completado el pago total.</div>
+        </div>
+        <div class="tl">
+          <div class="year">Entrega</div>
+          <div class="pct lista">100%</div>
+          <div class="d" data-bind="deliveryDateNote">Fecha estimada: Marzo / Abril de 2026.</div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:2mm;font-size:9pt;">
+        Las condiciones específicas de pago (contado, financiamiento bancario, plazos) se acuerdan
+        de forma personalizada y se formalizan en el contrato comercial.
+      </p>
+
+      <div class="finance-notes" id="financeNotes" style="display:none;">
+        <span class="k">Notas acordadas con el cliente</span>
+        <div class="v" data-bind="financeNotes"></div>
+      </div>
+
+      <h3 class="sub" style="margin-top:5mm;">Garantía y soporte</h3>
+      <p>
+        DeepAgro ofrece <strong><span data-bind="warrantyMonths">12</span> meses de garantía de fábrica</strong> sobre el equipo y soporte técnico
+        especializado durante toda la vida útil. El soporte combina diagnóstico remoto vía telemetría con
+        asistencia presencial cuando se requiere.
+      </p>
+
+      <div class="cond-grid" style="margin-top:4mm;">
+        <div class="cond"><div class="k">Fecha estimada de entrega</div><div class="v" data-bind="deliveryDate">Marzo / Abril de 2026</div></div>
+        <div class="cond"><div class="k">Validez de la oferta</div><div class="v">Hasta el <span data-bind="validUntil">5 de junio de 2026</span></div></div>
+        <div class="cond"><div class="k">Garantía de fábrica</div><div class="v"><span data-bind="warrantyMonths">12</span> meses (DeepAgro)</div></div>
+        <div class="cond"><div class="k">Soporte técnico</div><div class="v">Remoto y presencial · vida útil</div></div>
+      </div>
+    </div>
+    <div class="run-f"><span>DEEPAGRO · SPRAI</span><span class="pg">05 <em>/</em> 06</span></div>
+  </section>
+
+  <!-- ============================================================
+       P6 · CIERRE
+       ============================================================ -->
+  <section class="page body">
+    <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
+    <div class="pad">
+      <div class="sect-eb"><span class="num">05</span>Cierre</div>
+      <h2 class="sect">Próximos <em>pasos.</em></h2>
+      <p class="lead">
+        Confirmada la propuesta, se coordina la <strong>seña del <span data-bind="reservePct">5</span>%</strong>
+        que reserva la fabricación, se planifica la fecha estimada de entrega y se acuerdan las condiciones
+        de pago restantes en el contrato comercial.
+      </p>
+
+      <div class="summary" style="margin-bottom:6mm;">
+        <h3 class="sub">Resumen del acuerdo — <span data-bind="clientName">El Escondido</span></h3>
+        <p class="muted" style="margin-bottom:4mm;">Modalidad: <span data-bind="clientMode">cliente final</span> · Modelo SMART con instalación y puesta en marcha incluidas.</p>
+        <table class="prop summary-table" style="margin:0;">
+          <tbody data-bind-table="summaryRows">
+            <!-- llenado dinámicamente desde el panel -->
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:3mm;font-size:8.5pt;">Valores en USD sin IVA. Instalación y puesta en marcha incluidas. Licencias por cultivo opcionales y anuales.</p>
+      </div>
+
+      <div class="contact">
+        <div>
+          <div class="nm" data-bind="contactName">Alberto Peirano</div>
+          <div class="rol" data-bind="contactRole">Responsable Comercial — DeepAgro</div>
+        </div>
+        <div class="info">
+          <div data-bind="contactPhone">+54 9 341 6825723</div>
+          <div><a data-bind="contactEmail" data-bind-href="contactEmail" href="mailto:apeirano@deepagro.com">apeirano@deepagro.com</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="run-f"><span>DEEPAGRO · SPRAI · <span data-bind="year">2026</span></span><span class="pg">06 <em>/</em> 06</span></div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  const STORAGE_KEY = 'deepagro_propuesta_data_v2';
+
+  // ===========================================================
+  // Endpoint de tracking (Google Apps Script Web App)
+  // Si está vacío, el envío automático queda deshabilitado y
+  // solo se descarga el CSV como respaldo.
+  // ===========================================================
+  const TRACKING_URL = 'https://script.google.com/macros/s/AKfycbw14lcFbGzI6JLYIzujMKDXha6qONSLvuLhp4EquzaU04i56pnsU-fl-OzAPZzP5yn0kg/exec';
+
+  // ===========================================================
+  // Estado: campos simples + listas de filas (precios y resumen)
+  // ===========================================================
+  // Tipos de fila:
+  //   'price'    → suma al precio por metro
+  //   'discount' → resta al precio por metro (bonificación)
+  //   'text'     → texto libre, no suma
+  const DEFAULT_PRICE_ROWS = [
+    {kind:'price',    label:'Precio por metro de <strong>LISTA</strong>',                          amount:'4.000', highlight:false, bold:false},
+    {kind:'price',    label:'Adicional por <strong>doble tanque</strong>',                         amount:'450',   highlight:false, bold:false},
+    {kind:'discount', label:'Bonificación cliente',                                                  amount:'750',   highlight:true,  bold:true},
+    {kind:'text',     label:'Licencias incluidas',                                                   amount:'Barbecho (sin vencimiento) · Optativas el resto', highlight:false, bold:false},
+  ];
+
+  // Defaults para parámetros del cálculo
+  const DEFAULT_QUANTITY = '36'; // metros
+
+  // ===========================================================
+  // Helpers
+  // ===========================================================
+  function loadState(){
+    try {
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (!s) return null;
+      return JSON.parse(s);
+    } catch(e){ return null; }
+  }
+
+  function saveState(){
+    try {
+      const data = {};
+      document.querySelectorAll('[data-input]').forEach(function(el){
+        data[el.getAttribute('data-input')] = el.value;
+      });
+      data.priceRows = priceRows;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch(e){}
+  }
+
+  function formatDateLong(d){
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return d.getDate() + ' de ' + months[d.getMonth()] + ' de ' + d.getFullYear();
+  }
+
+  function calcValidUntil(){
+    const d = new Date();
+    d.setMonth(d.getMonth() + 1);
+    return formatDateLong(d);
+  }
+
+  // ===========================================================
+  // ID del documento: contador GLOBAL centralizado en la Sheet
+  //   Formato: DOC-{año}-{NNN}  (ej: DOC-2026-007)
+  //   El número se obtiene preguntando al Apps Script.
+  //   Si no hay internet, cae en un fallback local + sufijo aleatorio.
+  // ===========================================================
+  const LOCAL_COUNTER_KEY = 'deepagro_local_counter';
+
+  function getLocalCounter(){
+    try {
+      const v = localStorage.getItem(LOCAL_COUNTER_KEY);
+      return v ? parseInt(v, 10) : 0;
+    } catch(e) { return 0; }
+  }
+
+  function setLocalCounter(n){
+    try { localStorage.setItem(LOCAL_COUNTER_KEY, String(n)); } catch(e){}
+  }
+
+  function buildDocId(num, isOffline){
+    const yearInput = document.querySelector('[data-input="year"]');
+    const year      = (yearInput && yearInput.value) || new Date().getFullYear();
+    const padded    = String(num).padStart(3, '0');
+    // Si está offline, marcamos el ID para distinguirlo
+    return 'DOC-' + year + '-' + padded + (isOffline ? '-OFF' : '');
+  }
+
+  // Pregunta al Apps Script cuál es el próximo número global
+  // Devuelve una promesa con {next, source: 'server'|'local'}
+  function fetchNextDocNumber(){
+    return new Promise(function(resolve){
+      if (!TRACKING_URL || !TRACKING_URL.trim()){
+        resolve({next: getLocalCounter() + 1, source: 'local'});
+        return;
+      }
+      const url = TRACKING_URL + (TRACKING_URL.indexOf('?') >= 0 ? '&' : '?') + 'action=nextId';
+      // Timeout manual para no bloquear la UI si Google está lento
+      const timeoutId = setTimeout(function(){
+        resolve({next: getLocalCounter() + 1, source: 'local', timeout: true});
+      }, 6000);
+      try {
+        fetch(url, {method: 'GET', mode: 'cors'})
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            clearTimeout(timeoutId);
+            if (data && typeof data.next === 'number'){
+              resolve({next: data.next, source: 'server', used: data.used || 0});
+            } else {
+              resolve({next: getLocalCounter() + 1, source: 'local'});
+            }
+          })
+          .catch(function(err){
+            clearTimeout(timeoutId);
+            console.warn('No se pudo obtener próximo ID del servidor:', err);
+            resolve({next: getLocalCounter() + 1, source: 'local'});
+          });
+      } catch(err) {
+        clearTimeout(timeoutId);
+        resolve({next: getLocalCounter() + 1, source: 'local'});
+      }
+    });
+  }
+
+  // Cache del último número obtenido para no consultar dos veces seguidas
+  let cachedNextNumber = null;
+  let cachedNextSource = null;
+
+  function refreshDocId(){
+    const docInput = document.querySelector('[data-input="docId"]');
+    if (!docInput) return;
+    const info = document.getElementById('counterInfo');
+
+    // Mostrar estado "consultando..."
+    if (info){
+      info.innerHTML = '<em style="color:var(--da-n-500);">Consultando contador en la Sheet…</em>';
+    }
+    docInput.value = 'Cargando…';
+
+    fetchNextDocNumber().then(function(result){
+      cachedNextNumber = result.next;
+      cachedNextSource = result.source;
+      const isOffline  = result.source !== 'server';
+      docInput.value   = buildDocId(result.next, isOffline);
+      updateBinding('docId', docInput.value);
+
+      if (info){
+        if (result.source === 'server'){
+          info.innerHTML = '<strong style="color:var(--da-green);">✓ Contador centralizado · ' + (result.used || 0) + ' propuestas previas en el sistema.</strong>';
+        } else if (result.timeout) {
+          info.innerHTML = '<em style="color:var(--da-yellow-700);">⚠ La Sheet no respondió a tiempo. Usando contador local de respaldo.</em>';
+        } else {
+          info.innerHTML = '<em style="color:var(--da-yellow-700);">⚠ Sin conexión con la Sheet. Usando contador local — el ID llevará sufijo "-OFF" hasta restablecer conexión.</em>';
+        }
+      }
+    });
+  }
+
+  // Llamar al imprimir: incrementa el contador local
+  // (el contador del server se actualiza solo al recibir el POST con la fila nueva)
+  function commitDocId(){
+    if (cachedNextNumber !== null){
+      setLocalCounter(cachedNextNumber);
+    }
+  }
+
+  // Sustituir tokens {clientName} en strings de fila
+  function resolveTokens(str){
+    const clientName = (document.querySelector('[data-input="clientName"]')||{}).value || '';
+    return (str||'').replace(/\{clientName\}/g, clientName);
+  }
+
+  // ===========================================================
+  // Estado de filas
+  // ===========================================================
+  let priceRows = JSON.parse(JSON.stringify(DEFAULT_PRICE_ROWS));
+
+  // Cargar estado guardado
+  const saved = loadState();
+  if (saved){
+    document.querySelectorAll('[data-input]').forEach(function(el){
+      const k = el.getAttribute('data-input');
+      if (saved[k] !== undefined) el.value = saved[k];
+    });
+    if (Array.isArray(saved.priceRows)) priceRows = saved.priceRows;
+  }
+
+  // Si validUntil está vacío, calcular automáticamente
+  const validUntilInput = document.querySelector('[data-input="validUntil"]');
+  if (validUntilInput && !validUntilInput.value) validUntilInput.value = calcValidUntil();
+
+  // ===========================================================
+  // Render: campos simples (data-bind)
+  // ===========================================================
+  function updateBinding(key, value){
+    document.querySelectorAll('[data-bind="' + key + '"]').forEach(function(el){
+      el.textContent = value;
+    });
+    if (key === 'contactEmail'){
+      document.querySelectorAll('[data-bind-href="contactEmail"]').forEach(function(el){
+        el.setAttribute('href', 'mailto:' + value);
+      });
+    }
+    if (key === 'clientName'){
+      document.title = 'Propuesta Comercial DeepAgro · ' + value;
+      // Re-renderizar tablas porque el clientName aparece en algunas filas
+      renderPriceRows(); renderSummaryRows();
+    }
+    if (key === 'financeNotes'){
+      const block = document.getElementById('financeNotes');
+      if (block) block.style.display = (value && value.trim()) ? 'block' : 'none';
+    }
+  }
+
+  function applyAllBindings(){
+    document.querySelectorAll('[data-input]').forEach(function(input){
+      updateBinding(input.getAttribute('data-input'), input.value);
+    });
+  }
+
+  // ===========================================================
+  // Helpers de números
+  // ===========================================================
+  // Parsea un string tipo "4.000" o "4,500.50" o "4.500,50" a número
+  function parseNum(s){
+    if (typeof s === 'number') return s;
+    if (!s) return 0;
+    s = String(s).trim();
+    // Si tiene tanto . como , decidir cuál es decimal por la última posición
+    const lastDot = s.lastIndexOf('.');
+    const lastCom = s.lastIndexOf(',');
+    if (lastDot >= 0 && lastCom >= 0) {
+      // El último de los dos es el decimal; el otro es separador de miles
+      if (lastDot > lastCom) {
+        s = s.replace(/,/g, ''); // comas son miles
+      } else {
+        s = s.replace(/\./g, '').replace(',', '.'); // puntos son miles, coma es decimal
+      }
+    } else if (lastCom >= 0 && lastDot < 0) {
+      // Solo comas: si hay 3 dígitos después, es miles; si hay 2 o menos, es decimal
+      const after = s.length - lastCom - 1;
+      if (after === 3) s = s.replace(/,/g, '');
+      else s = s.replace(',', '.');
+    } else if (lastDot >= 0 && lastCom < 0) {
+      // Solo puntos: si hay 3 dígitos después, podría ser miles
+      const after = s.length - lastDot - 1;
+      if (after === 3 && s.replace(/[^\d.]/g,'').match(/^\d{1,3}(\.\d{3})+$/)) {
+        s = s.replace(/\./g, ''); // formato 4.000 = 4000
+      }
+    }
+    const n = parseFloat(s.replace(/[^\d.\-]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  // Formatea un número como "4.000" (formato es-AR)
+  function formatNum(n){
+    if (n === null || n === undefined || isNaN(n)) return '0';
+    return n.toLocaleString('es-AR', {maximumFractionDigits: 0});
+  }
+
+  // ===========================================================
+  // Render: tabla de precios (P4) con cálculo de totales
+  // ===========================================================
+  function calcPricePerMeter(){
+    let total = 0;
+    priceRows.forEach(function(r){
+      if (r.kind === 'price')    total += parseNum(r.amount);
+      if (r.kind === 'discount') total -= parseNum(r.amount);
+    });
+    return total;
+  }
+
+  function renderPriceRows(){
+    const tbody = document.querySelector('[data-bind-table="priceRows"]');
+    if (!tbody) return;
+
+    const subtotalPerMeter = calcPricePerMeter();
+    const meters           = parseNum((document.querySelector('[data-input="quantityMeters"]')||{}).value || DEFAULT_QUANTITY);
+    const grandTotal       = subtotalPerMeter * meters;
+
+    // Filas editables
+    let html = priceRows.map(function(r){
+      const cls = [];
+      if (r.highlight) cls.push('hl');
+
+      const labelHtml = r.bold && !r.label.includes('<strong>')
+        ? '<strong>' + resolveTokens(r.label) + '</strong>'
+        : resolveTokens(r.label);
+
+      let valueCell;
+      if (r.kind === 'text') {
+        valueCell = '<td class="num" style="text-align:left;font-family:var(--font-body);font-weight:400;font-size:9.5pt;">' + r.amount + '</td>';
+      } else if (r.kind === 'discount') {
+        valueCell = '<td class="num">−USD ' + formatNum(parseNum(r.amount)) + '</td>';
+      } else {
+        valueCell = '<td class="num">USD ' + formatNum(parseNum(r.amount)) + '</td>';
+      }
+      return '<tr class="' + cls.join(' ') + '"><td>' + labelHtml + '</td>' + valueCell + '</tr>';
+    }).join('');
+
+    // Filas de totales
+    html += '<tr class="row-subtotal"><td><strong>Subtotal por metro</strong></td><td class="num"><strong>USD ' + formatNum(subtotalPerMeter) + '</strong></td></tr>';
+    html += '<tr class="row-meters"><td>Cantidad de metros del equipo</td><td class="num">' + formatNum(meters) + ' m</td></tr>';
+    html += '<tr class="row-grandtotal total"><td><strong>TOTAL</strong></td><td class="num"><strong>USD ' + formatNum(grandTotal) + '</strong></td></tr>';
+
+    tbody.innerHTML = html;
+
+    // Actualizar también campos data-bind globales que dependen del cálculo
+    updateBinding('subtotalPerMeter', formatNum(subtotalPerMeter));
+    updateBinding('quantityMetersDisplay', formatNum(meters));
+    updateBinding('grandTotal', formatNum(grandTotal));
+
+    // El resumen del cierre depende del subtotal y total — re-renderizarlo
+    renderSummaryRows();
+  }
+
+  // ===========================================================
+  // Render: resumen del cierre (P6)
+  // ===========================================================
+  function renderSummaryRows(){
+    const tbody = document.querySelector('[data-bind-table="summaryRows"]');
+    if (!tbody) return;
+
+    // Obtener valores actuales del estado
+    function val(key){
+      const el = document.querySelector('[data-input="' + key + '"]');
+      return el ? el.value : '';
+    }
+    const subtotal      = calcPricePerMeter();
+    const meters        = parseNum(val('quantityMeters'));
+    const grandTotal    = subtotal * meters;
+    const reservePct    = parseNum(val('reservePct'));
+    const reserveAmount = grandTotal * reservePct / 100;
+    const balanceAmount = grandTotal - reserveAmount;
+
+    // Armar filas calculadas automáticamente
+    const rows = [
+      {label: 'Cantidad de metros del equipo',                  amount: formatNum(meters) + ' m',                  type: 'text'},
+      {label: 'Subtotal por metro',                              amount: 'USD ' + formatNum(subtotal) + ' / m',     type: 'text'},
+      {label: '<strong>TOTAL del equipo</strong>',               amount: 'USD ' + formatNum(grandTotal),            type: 'highlight-total'},
+      {label: 'Seña de reserva (' + (reservePct||0) + '%)',     amount: 'USD ' + formatNum(reserveAmount),         type: 'text'},
+      {label: 'Saldo previo al despacho (' + (parseNum(val('balancePct'))||0) + '%)',  amount: 'USD ' + formatNum(balanceAmount), type: 'text'},
+      {label: 'Validez de la oferta',                            amount: 'Hasta el ' + (val('validUntil')||'—'),    type: 'text'},
+      {label: 'Garantía de fábrica',                             amount: (val('warrantyMonths')||'12') + ' meses',  type: 'text'},
+      {label: 'Licencia de barbecho',                            amount: 'Sin vencimiento (incluida)',              type: 'text'},
+    ];
+
+    tbody.innerHTML = rows.map(function(r){
+      const cls = (r.type === 'highlight-total') ? 'row-highlight row-bold' : '';
+      const numCls = (r.type === 'highlight-total') ? 'num strong-green' : 'num';
+      return '<tr class="' + cls + '"><td>' + r.label + '</td><td class="' + numCls + '">' + r.amount + '</td></tr>';
+    }).join('');
+  }
+
+  // ===========================================================
+  // Render: editor de filas (panel)
+  // ===========================================================
+  function renderPriceRowsEditor(){
+    const container = document.getElementById('priceRowsEditor');
+    container.innerHTML = '';
+    priceRows.forEach(function(r, idx){
+      const row = document.createElement('div');
+      const isText = r.kind === 'text';
+      row.className = 'ed-row ed-row-price kind-' + r.kind + (r.highlight ? ' highlighted' : '');
+
+      const kindOptions =
+        '<option value="price"'    + (r.kind==='price'    ? ' selected':'') + '>Precio (suma)</option>' +
+        '<option value="discount"' + (r.kind==='discount' ? ' selected':'') + '>Bonificación (resta)</option>' +
+        '<option value="text"'     + (r.kind==='text'     ? ' selected':'') + '>Texto libre (no suma)</option>';
+
+      const valuePlaceholder = isText ? 'Texto a mostrar' : 'Monto';
+      row.innerHTML =
+        '<div class="row-line-1">' +
+          '<select class="kind-select">' + kindOptions + '</select>' +
+          '<button type="button" class="row-up"     title="Subir">↑</button>' +
+          '<button type="button" class="row-down"   title="Bajar">↓</button>' +
+          '<button type="button" class="row-delete" title="Eliminar">×</button>' +
+        '</div>' +
+        '<input type="text" class="label-input" placeholder="Concepto" value="' + (r.label||'').replace(/"/g, '&quot;') + '">' +
+        '<input type="text" class="value-input" placeholder="' + valuePlaceholder + '" value="' + (r.amount||'').replace(/"/g, '&quot;') + '">' +
+        '<div class="row-options">' +
+          '<label><input type="checkbox" class="opt-highlight" ' + (r.highlight ? 'checked' : '') + '> Resaltar</label>' +
+          '<label><input type="checkbox" class="opt-bold" '      + (r.bold      ? 'checked' : '') + '> Negrita</label>' +
+        '</div>';
+
+      const kindSel = row.querySelector('.kind-select');
+      const labelI  = row.querySelector('.label-input');
+      const valueI  = row.querySelector('.value-input');
+      const hlChk   = row.querySelector('.opt-highlight');
+      const boldChk = row.querySelector('.opt-bold');
+      const upBtn   = row.querySelector('.row-up');
+      const downBtn = row.querySelector('.row-down');
+      const delBtn  = row.querySelector('.row-delete');
+
+      function update(){
+        priceRows[idx].kind      = kindSel.value;
+        priceRows[idx].label     = labelI.value;
+        priceRows[idx].amount    = valueI.value;
+        priceRows[idx].highlight = hlChk.checked;
+        priceRows[idx].bold      = boldChk.checked;
+        renderPriceRows();
+        renderPriceRowsEditor(); // re-render para que cambie el class kind-X
+        saveState();
+      }
+
+      kindSel.addEventListener('change', update);
+      labelI.addEventListener('input', update);
+      valueI.addEventListener('input', update);
+      hlChk.addEventListener('change', update);
+      boldChk.addEventListener('change', update);
+
+      upBtn.disabled   = idx === 0;
+      downBtn.disabled = idx === priceRows.length - 1;
+
+      upBtn.addEventListener('click', function(){
+        if (idx === 0) return;
+        const tmp = priceRows[idx-1];
+        priceRows[idx-1] = priceRows[idx];
+        priceRows[idx] = tmp;
+        renderPriceRows(); renderPriceRowsEditor(); saveState();
+      });
+
+      downBtn.addEventListener('click', function(){
+        if (idx === priceRows.length - 1) return;
+        const tmp = priceRows[idx+1];
+        priceRows[idx+1] = priceRows[idx];
+        priceRows[idx] = tmp;
+        renderPriceRows(); renderPriceRowsEditor(); saveState();
+      });
+
+      delBtn.addEventListener('click', function(){
+        priceRows.splice(idx, 1);
+        renderPriceRows(); renderPriceRowsEditor(); saveState();
+      });
+
+      container.appendChild(row);
+    });
+  }
+
+  // Editor del resumen (P6) — más simple, mismo schema con kind opcional
+  // ===========================================================
+  // Inicialización + listeners
+  // ===========================================================
+  applyAllBindings();
+  renderPriceRows();
+  renderSummaryRows();
+  renderPriceRowsEditor();
+
+  document.querySelectorAll('[data-input]').forEach(function(input){
+    input.addEventListener('input', function(){
+      const key = input.getAttribute('data-input');
+      updateBinding(key, input.value);
+      // Si cambió la cantidad de metros, recalcular tabla de precios
+      if (key === 'quantityMeters') {
+        renderPriceRows();
+      }
+      // El resumen depende de muchos campos, lo re-renderizamos siempre
+      renderSummaryRows();
+      // Si cambian iniciales o año, regenerar el ID del documento
+      if (key === 'sellerInitials' || key === 'year'){
+        refreshDocId();
+      }
+      saveState();
+    });
+  });
+
+  // Inicializar el ID si está vacío
+  refreshDocId();
+
+  // Botón: agregar fila de precio
+  document.querySelector('[data-action="addPriceRow"]').addEventListener('click', function(){
+    priceRows.push({kind:'price', label:'Nuevo concepto', amount:'0', highlight:false, bold:false});
+    renderPriceRows();
+    renderPriceRowsEditor();
+    saveState();
+  });
+
+  // Botón: validez automática
+  document.querySelector('[data-action="autoValidUntil"]').addEventListener('click', function(){
+    validUntilInput.value = calcValidUntil();
+    updateBinding('validUntil', validUntilInput.value);
+    saveState();
+  });
+
+  // Botón: probar conexión con tracking (envía un registro de prueba)
+  const testBtn = document.querySelector('[data-action="testTracking"]');
+  if (testBtn){
+    testBtn.addEventListener('click', function(){
+      if (!TRACKING_URL || !TRACKING_URL.trim()){
+        alert('El tracking automático no está configurado en esta plantilla.');
+        return;
+      }
+      // Forzar un cliente "TEST" temporal para que se distinga en la Sheet
+      showTrackingStatus('pending', 'Enviando registro de prueba…');
+      const testPayload = collectTrackingData();
+      testPayload.clientName = '*** PRUEBA DE CONEXIÓN ***';
+      testPayload.docId = 'TEST-' + new Date().toISOString().slice(0,16);
+      try {
+        fetch(TRACKING_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {'Content-Type': 'text/plain;charset=utf-8'},
+          body: JSON.stringify(testPayload),
+        })
+        .then(function(){
+          showTrackingStatus('ok', '✓ Prueba enviada. Revisá tu Google Sheet — debería aparecer una fila con cliente "*** PRUEBA DE CONEXIÓN ***".');
+        })
+        .catch(function(err){
+          showTrackingStatus('fail', '✗ Falló la conexión: ' + err.message);
+        });
+      } catch(err){
+        showTrackingStatus('fail', '✗ Error: ' + err.message);
+      }
+    });
+  }
+
+  // ===========================================================
+  // Helpers para descarga / exportación
+  // ===========================================================
+  function slugify(s){
+    return (s||'')
+      .toString()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quitar acentos
+      .replace(/[^a-zA-Z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .slice(0, 60);
+  }
+
+  function todayISO(){
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function suggestedFilename(){
+    const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
+    const docId  = (document.querySelector('[data-input="docId"]')||{}).value || '';
+    return 'Propuesta_' + client + '_' + todayISO() + (docId ? '_' + docId : '') + '.pdf';
+  }
+
+  function escapeCSV(s){
+    if (s === null || s === undefined) return '';
+    s = String(s);
+    if (s.indexOf('"')>=0 || s.indexOf(',')>=0 || s.indexOf('\n')>=0){
+      return '"' + s.replace(/"/g,'""') + '"';
+    }
+    return s;
+  }
+
+  function downloadFile(name, mimeType, content){
+    const blob = new Blob([content], {type: mimeType + ';charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+  }
+
+  // Genera una fila CSV con todos los datos editables (para tracking)
+  function buildTrackingCSV(){
+    const data = collectTrackingData();
+    // Encabezados (lo que va a estar en la fila de Sheets)
+    const headers = [
+      'Fecha de generación','Vendedor (iniciales)','Vendedor (nombre)','ID documento',
+      'Cliente','Modalidad','Validez de la oferta',
+      'Cantidad de metros','Subtotal por metro (USD)','TOTAL (USD)',
+      'Detalle de líneas (precios)',
+      'Crops Soja','Crops Maíz','Crops Maní','Crops Algodón','Crops Caña',
+      '% Seña reserva','% Saldo despacho','Fecha estimada entrega','Garantía (meses)','Notas financieras',
+      'Contacto nombre','Contacto cargo','Contacto teléfono','Contacto email',
+    ];
+    const row = [
+      data.timestamp,
+      data.sellerInitials, data.sellerName, data.docId,
+      data.clientName, data.clientMode, data.validUntil,
+      data.meters, data.subtotalPerMeter, data.grandTotal,
+      data.priceLines,
+      data.cropSoja, data.cropMaiz, data.cropMani, data.cropAlgodon, data.cropCana,
+      data.reservePct, data.balancePct, data.deliveryDate, data.warrantyMonths, data.financeNotes,
+      data.contactName, data.contactRole, data.contactPhone, data.contactEmail,
+    ];
+    return headers.map(escapeCSV).join(',') + '\n' + row.map(escapeCSV).join(',') + '\n';
+  }
+
+  // Recolecta todos los datos en un objeto plano (lo usan CSV y Apps Script)
+  function collectTrackingData(){
+    const inputs = {};
+    document.querySelectorAll('[data-input]').forEach(function(el){
+      inputs[el.getAttribute('data-input')] = el.value;
+    });
+    const subtotal = calcPricePerMeter();
+    const meters   = parseNum(inputs.quantityMeters);
+    const total    = subtotal * meters;
+    const priceLines = priceRows.map(function(r){
+      const sign = r.kind==='discount' ? '-' : (r.kind==='price' ? '+' : '=');
+      return sign + ' ' + (r.label||'').replace(/<[^>]+>/g,'') + ': ' + r.amount;
+    }).join(' | ');
+    return {
+      timestamp:        new Date().toISOString(),
+      sellerInitials:   inputs.sellerInitials || '',
+      sellerName:       inputs.sellerName || '',
+      docId:            inputs.docId || '',
+      clientName:       inputs.clientName || '',
+      clientMode:       inputs.clientMode || '',
+      validUntil:       inputs.validUntil || '',
+      meters:           meters,
+      subtotalPerMeter: subtotal,
+      grandTotal:       total,
+      priceLines:       priceLines,
+      cropSoja:         inputs.cropSoja || '',
+      cropMaiz:         inputs.cropMaiz || '',
+      cropMani:         inputs.cropMani || '',
+      cropAlgodon:      inputs.cropAlgodon || '',
+      cropCana:         inputs.cropCana || '',
+      reservePct:       inputs.reservePct || '',
+      balancePct:       inputs.balancePct || '',
+      deliveryDate:     inputs.deliveryDate || '',
+      warrantyMonths:   inputs.warrantyMonths || '',
+      financeNotes:     inputs.financeNotes || '',
+      contactName:      inputs.contactName || '',
+      contactRole:      inputs.contactRole || '',
+      contactPhone:     inputs.contactPhone || '',
+      contactEmail:     inputs.contactEmail || '',
+    };
+  }
+
+  // ===========================================================
+  // Envío al endpoint de tracking (Google Apps Script)
+  //   Devuelve una promesa que se resuelve con true/false según éxito.
+  //   Usamos modo 'no-cors' porque Apps Script no responde con CORS headers
+  //   amigables — esto significa que NO podemos leer la respuesta, pero
+  //   el envío llega igual al servidor. Si la red falla, el catch dispara.
+  // ===========================================================
+  function sendToTracking(){
+    return new Promise(function(resolve){
+      if (!TRACKING_URL || !TRACKING_URL.trim()){
+        resolve(false);
+        return;
+      }
+      const payload = collectTrackingData();
+      try {
+        fetch(TRACKING_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {'Content-Type': 'text/plain;charset=utf-8'}, // text/plain evita preflight CORS
+          body: JSON.stringify(payload),
+        })
+        .then(function(){ resolve(true); })
+        .catch(function(err){
+          console.error('Tracking failed:', err);
+          resolve(false);
+        });
+      } catch(err){
+        console.error('Tracking exception:', err);
+        resolve(false);
+      }
+    });
+  }
+
+  // Indicador visual del estado del envío
+  function showTrackingStatus(state, msg){
+    let el = document.getElementById('trackingStatus');
+    if (!el){
+      el = document.createElement('div');
+      el.id = 'trackingStatus';
+      document.body.appendChild(el);
+    }
+    el.className = 'tracking-status tracking-' + state;
+    el.textContent = msg;
+    el.style.display = 'block';
+    if (state === 'ok' || state === 'fail'){
+      setTimeout(function(){ el.style.display = 'none'; }, 5000);
+    }
+  }
+
+  // ===========================================================
+  // Imprimir: enviar al tracking + descargar CSV + imprimir
+  // ===========================================================
+  function handlePrint(){
+    // Validar iniciales del vendedor
+    const initialsInput = document.querySelector('[data-input="sellerInitials"]');
+    if (!initialsInput.value || !initialsInput.value.trim()){
+      alert('Antes de imprimir, configurá tus iniciales en la sección "Vendedor" arriba del panel.');
+      initialsInput.focus();
+      return;
+    }
+
+    const docId = (document.querySelector('[data-input="docId"]')||{}).value || '';
+    const trackingMsg = TRACKING_URL && TRACKING_URL.trim()
+      ? '  1. Registrará la propuesta en el sistema de tracking (Google Sheet).\n  2. Descargará un CSV de respaldo.\n  3. Abrirá el diálogo de impresión.\n  4. Incrementará tu contador.'
+      : '  1. Descargará un CSV de tracking.\n  2. Abrirá el diálogo de impresión.\n  3. Incrementará tu contador.';
+    const ok = confirm(
+      'Vas a generar la propuesta ' + docId + '.\n\n' +
+      'Esto:\n' + trackingMsg + '\n\n' +
+      '¿Continuar?'
+    );
+    if (!ok) return;
+
+    // 1. Enviar al tracking (en background, no bloquea)
+    showTrackingStatus('pending', 'Registrando propuesta…');
+    sendToTracking().then(function(success){
+      if (success){
+        showTrackingStatus('ok', '✓ Propuesta ' + docId + ' registrada en el tracking.');
+      } else {
+        showTrackingStatus('fail', '⚠ No se pudo registrar online. El CSV descargado sirve como respaldo manual.');
+      }
+    });
+
+    // 2. Descargar CSV de respaldo
+    const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
+    const csvName = 'Tracking_' + client + '_' + todayISO() + '_' + docId + '.csv';
+    downloadFile(csvName, 'text/csv', buildTrackingCSV());
+
+    // 3. Sugerir nombre del PDF al usuario (Chrome usa document.title como sugerencia)
+    const originalTitle = document.title;
+    document.title = suggestedFilename().replace(/\.pdf$/, '');
+
+    // 4. Disparar impresión
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){ document.title = originalTitle; }, 1000);
+    }, 600);
+
+    // 5. Incrementar contador
+    commitDocId();
+    setTimeout(refreshDocId, 1500);
+  }
+
+  document.getElementById('btnPrint').addEventListener('click', handlePrint);
+
+  // Botón CSV solo (sin imprimir, sin incrementar contador)
+  document.getElementById('btnExportCsv').addEventListener('click', function(){
+    const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
+    const docId  = (document.querySelector('[data-input="docId"]')||{}).value || '';
+    const csvName = 'Tracking_' + client + '_' + todayISO() + (docId ? '_' + docId : '') + '.csv';
+    downloadFile(csvName, 'text/csv', buildTrackingCSV());
+  });
+
+  // Restablecer (preserva la configuración del vendedor)
+  document.getElementById('btnReset').addEventListener('click', function(){
+    if (!confirm('¿Restablecer todos los valores del cliente? Tus iniciales y nombre de vendedor se mantienen.')) return;
+    try {
+      // Guardar la config del vendedor antes de borrar
+      const sellerInitials = (document.querySelector('[data-input="sellerInitials"]')||{}).value || '';
+      const sellerName     = (document.querySelector('[data-input="sellerName"]')||{}).value || '';
+      localStorage.removeItem(STORAGE_KEY);
+      // Reescribir solo el bloque del vendedor en el storage
+      if (sellerInitials || sellerName){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({sellerInitials: sellerInitials, sellerName: sellerName}));
+      }
+    } catch(e){}
+    location.reload();
+  });
+
+  // Toggle del panel
+  const panel = document.getElementById('editorPanel');
+  const body = document.body;
+  document.getElementById('editorToggle').addEventListener('click', function(){
+    panel.classList.toggle('collapsed');
+    body.classList.toggle('editor-collapsed');
+  });
+
+  // Guardar inicialmente (asegura que la validez auto-calculada quede)
+  saveState();
+
+})();
+</script>
+
+</body>
+</html>
