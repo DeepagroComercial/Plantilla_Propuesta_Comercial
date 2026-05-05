@@ -505,6 +505,34 @@ body.has-editor.editor-collapsed .stage{margin-left:0}
   margin:0 0 10px;
   font-style:italic;
 }
+.docid-builder{
+  display:flex;align-items:stretch;gap:0;
+  border:1px solid var(--da-n-200);
+  border-radius:5px;
+  overflow:hidden;
+  background:#fff;
+}
+.docid-builder:focus-within{
+  border-color:var(--da-green);
+  box-shadow:0 0 0 2px rgba(29,134,73,.18);
+}
+.docid-builder .docid-prefix{
+  padding:8px 10px;
+  background:var(--da-n-50);
+  color:var(--da-n-600);
+  font:600 13px/1.4 var(--font-mono);
+  border-right:1px solid var(--da-n-200);
+  white-space:nowrap;
+  user-select:none;
+}
+.docid-builder input{
+  border:0!important;
+  background:transparent!important;
+  padding:8px 10px!important;
+  flex:1 1 auto;
+  outline:none!important;
+  box-shadow:none!important;
+}
 .ed-rows-editor{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
 .ed-row{
   display:grid;
@@ -688,9 +716,15 @@ table.prop tr.row-grandtotal td:first-child strong{
         <input type="text" data-input="validUntil" value="">
         <button type="button" class="mini-btn" data-action="autoValidUntil">Calcular: hoy + 1 mes</button>
       </div>
-      <div class="ed-field"><label>ID del documento <span class="ed-optional">(se genera solo)</span></label>
-        <input type="text" data-input="docId" value="" readonly style="background:var(--da-n-50);cursor:not-allowed;">
-        <p class="ed-help" style="margin:4px 0 0;">Formato: DOC-AAAA-NNN. El número se obtiene del sistema centralizado para evitar duplicados. <span id="counterInfo"></span></p>
+      <div class="ed-field">
+        <label>Número de propuesta</label>
+        <div class="docid-builder">
+          <span class="docid-prefix">DOC-<span data-bind="year">2026</span>-</span>
+          <input type="text" data-input="docNumber" value="" placeholder="008" maxlength="5" style="font-family:var(--font-mono);font-weight:700;text-align:center;">
+        </div>
+        <p class="ed-help" style="margin:6px 0 0;">
+          Mirá la última propuesta en la <a href="#" data-action="openSheet" style="color:var(--da-green);font-weight:600;">Google Sheet</a> y poné el número siguiente. El ID completo será: <strong data-bind="docId" style="font-family:var(--font-mono);color:var(--da-ink);">DOC-2026-008</strong>
+        </p>
       </div>
       <div class="ed-field"><label>Año</label>
         <input type="text" data-input="year" value="2026"></div>
@@ -1142,108 +1176,27 @@ table.prop tr.row-grandtotal td:first-child strong{
   }
 
   // ===========================================================
-  // ID del documento: contador GLOBAL centralizado en la Sheet
-  //   Formato: DOC-{año}-{NNN}  (ej: DOC-2026-007)
-  //   El número se obtiene preguntando al Apps Script.
-  //   Si no hay internet, cae en un fallback local + sufijo aleatorio.
+  // ID del documento: el vendedor escribe solo el NÚMERO.
+  // El ID completo se compone como DOC-{año}-{NNN}.
   // ===========================================================
-  const LOCAL_COUNTER_KEY = 'deepagro_local_counter';
-
-  function getLocalCounter(){
-    try {
-      const v = localStorage.getItem(LOCAL_COUNTER_KEY);
-      return v ? parseInt(v, 10) : 0;
-    } catch(e) { return 0; }
+  function composeDocId(){
+    const yearInput   = document.querySelector('[data-input="year"]');
+    const numberInput = document.querySelector('[data-input="docNumber"]');
+    const year        = (yearInput && yearInput.value) || new Date().getFullYear();
+    const rawNumber   = ((numberInput && numberInput.value) || '').trim();
+    if (!rawNumber) return ''; // sin número, sin ID
+    // Si es solo dígitos, los rellenamos a 3 con ceros a la izquierda
+    const numericOnly = /^\d+$/.test(rawNumber);
+    const formatted   = numericOnly ? String(parseInt(rawNumber, 10)).padStart(3, '0') : rawNumber;
+    return 'DOC-' + year + '-' + formatted;
   }
-
-  function setLocalCounter(n){
-    try { localStorage.setItem(LOCAL_COUNTER_KEY, String(n)); } catch(e){}
-  }
-
-  function buildDocId(num, isOffline){
-    const yearInput = document.querySelector('[data-input="year"]');
-    const year      = (yearInput && yearInput.value) || new Date().getFullYear();
-    const padded    = String(num).padStart(3, '0');
-    // Si está offline, marcamos el ID para distinguirlo
-    return 'DOC-' + year + '-' + padded + (isOffline ? '-OFF' : '');
-  }
-
-  // Pregunta al Apps Script cuál es el próximo número global
-  // Devuelve una promesa con {next, source: 'server'|'local'}
-  function fetchNextDocNumber(){
-    return new Promise(function(resolve){
-      if (!TRACKING_URL || !TRACKING_URL.trim()){
-        resolve({next: getLocalCounter() + 1, source: 'local'});
-        return;
-      }
-      const url = TRACKING_URL + (TRACKING_URL.indexOf('?') >= 0 ? '&' : '?') + 'action=nextId';
-      // Timeout manual para no bloquear la UI si Google está lento
-      const timeoutId = setTimeout(function(){
-        resolve({next: getLocalCounter() + 1, source: 'local', timeout: true});
-      }, 6000);
-      try {
-        fetch(url, {method: 'GET', mode: 'cors'})
-          .then(function(r){ return r.json(); })
-          .then(function(data){
-            clearTimeout(timeoutId);
-            if (data && typeof data.next === 'number'){
-              resolve({next: data.next, source: 'server', used: data.used || 0});
-            } else {
-              resolve({next: getLocalCounter() + 1, source: 'local'});
-            }
-          })
-          .catch(function(err){
-            clearTimeout(timeoutId);
-            console.warn('No se pudo obtener próximo ID del servidor:', err);
-            resolve({next: getLocalCounter() + 1, source: 'local'});
-          });
-      } catch(err) {
-        clearTimeout(timeoutId);
-        resolve({next: getLocalCounter() + 1, source: 'local'});
-      }
-    });
-  }
-
-  // Cache del último número obtenido para no consultar dos veces seguidas
-  let cachedNextNumber = null;
-  let cachedNextSource = null;
 
   function refreshDocId(){
-    const docInput = document.querySelector('[data-input="docId"]');
-    if (!docInput) return;
-    const info = document.getElementById('counterInfo');
-
-    // Mostrar estado "consultando..."
-    if (info){
-      info.innerHTML = '<em style="color:var(--da-n-500);">Consultando contador en la Sheet…</em>';
-    }
-    docInput.value = 'Cargando…';
-
-    fetchNextDocNumber().then(function(result){
-      cachedNextNumber = result.next;
-      cachedNextSource = result.source;
-      const isOffline  = result.source !== 'server';
-      docInput.value   = buildDocId(result.next, isOffline);
-      updateBinding('docId', docInput.value);
-
-      if (info){
-        if (result.source === 'server'){
-          info.innerHTML = '<strong style="color:var(--da-green);">✓ Contador centralizado · ' + (result.used || 0) + ' propuestas previas en el sistema.</strong>';
-        } else if (result.timeout) {
-          info.innerHTML = '<em style="color:var(--da-yellow-700);">⚠ La Sheet no respondió a tiempo. Usando contador local de respaldo.</em>';
-        } else {
-          info.innerHTML = '<em style="color:var(--da-yellow-700);">⚠ Sin conexión con la Sheet. Usando contador local — el ID llevará sufijo "-OFF" hasta restablecer conexión.</em>';
-        }
-      }
+    const composed = composeDocId();
+    // Actualizar todos los lugares del documento
+    document.querySelectorAll('[data-bind="docId"]').forEach(function(el){
+      el.textContent = composed || '—';
     });
-  }
-
-  // Llamar al imprimir: incrementa el contador local
-  // (el contador del server se actualiza solo al recibir el POST con la fila nueva)
-  function commitDocId(){
-    if (cachedNextNumber !== null){
-      setLocalCounter(cachedNextNumber);
-    }
   }
 
   // Sustituir tokens {clientName} en strings de fila
@@ -1538,15 +1491,15 @@ table.prop tr.row-grandtotal td:first-child strong{
       }
       // El resumen depende de muchos campos, lo re-renderizamos siempre
       renderSummaryRows();
-      // Si cambian iniciales o año, regenerar el ID del documento
-      if (key === 'sellerInitials' || key === 'year'){
+      // Si cambia el número de propuesta o el año, recomponer el ID
+      if (key === 'docNumber' || key === 'year'){
         refreshDocId();
       }
       saveState();
     });
   });
 
-  // Inicializar el ID si está vacío
+  // Inicializar el ID si tiene número
   refreshDocId();
 
   // Botón: agregar fila de precio
@@ -1615,7 +1568,7 @@ table.prop tr.row-grandtotal td:first-child strong{
 
   function suggestedFilename(){
     const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
-    const docId  = (document.querySelector('[data-input="docId"]')||{}).value || '';
+    const docId  = composeDocId();
     return 'Propuesta_' + client + '_' + todayISO() + (docId ? '_' + docId : '') + '.pdf';
   }
 
@@ -1682,7 +1635,7 @@ table.prop tr.row-grandtotal td:first-child strong{
       timestamp:        new Date().toISOString(),
       sellerInitials:   inputs.sellerInitials || '',
       sellerName:       inputs.sellerName || '',
-      docId:            inputs.docId || '',
+      docId:            composeDocId(),
       clientName:       inputs.clientName || '',
       clientMode:       inputs.clientMode || '',
       validUntil:       inputs.validUntil || '',
@@ -1768,10 +1721,18 @@ table.prop tr.row-grandtotal td:first-child strong{
       return;
     }
 
-    const docId = (document.querySelector('[data-input="docId"]')||{}).value || '';
+    // Validar número de propuesta
+    const numberInput = document.querySelector('[data-input="docNumber"]');
+    if (!numberInput.value || !numberInput.value.trim()){
+      alert('Falta el número de propuesta.\n\nMirá la última propuesta en la Google Sheet y poné el número siguiente.');
+      numberInput.focus();
+      return;
+    }
+
+    const docId = composeDocId();
     const trackingMsg = TRACKING_URL && TRACKING_URL.trim()
-      ? '  1. Registrará la propuesta en el sistema de tracking (Google Sheet).\n  2. Descargará un CSV de respaldo.\n  3. Abrirá el diálogo de impresión.\n  4. Incrementará tu contador.'
-      : '  1. Descargará un CSV de tracking.\n  2. Abrirá el diálogo de impresión.\n  3. Incrementará tu contador.';
+      ? '  1. Registrará la propuesta en el sistema de tracking (Google Sheet).\n  2. Descargará un CSV de respaldo.\n  3. Abrirá el diálogo de impresión.'
+      : '  1. Descargará un CSV de tracking.\n  2. Abrirá el diálogo de impresión.';
     const ok = confirm(
       'Vas a generar la propuesta ' + docId + '.\n\n' +
       'Esto:\n' + trackingMsg + '\n\n' +
@@ -1803,20 +1764,30 @@ table.prop tr.row-grandtotal td:first-child strong{
       window.print();
       setTimeout(function(){ document.title = originalTitle; }, 1000);
     }, 600);
-
-    // 5. Incrementar contador
-    commitDocId();
-    setTimeout(refreshDocId, 1500);
   }
 
   document.getElementById('btnPrint').addEventListener('click', handlePrint);
 
-  // Botón CSV solo (sin imprimir, sin incrementar contador)
+  // Botón CSV solo (sin imprimir)
   document.getElementById('btnExportCsv').addEventListener('click', function(){
     const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
-    const docId  = (document.querySelector('[data-input="docId"]')||{}).value || '';
+    const docId  = composeDocId();
     const csvName = 'Tracking_' + client + '_' + todayISO() + (docId ? '_' + docId : '') + '.csv';
     downloadFile(csvName, 'text/csv', buildTrackingCSV());
+  });
+
+  // Link "Abrir Google Sheet": pregunta al endpoint cuál es el próximo número y lo muestra en un alert
+  document.querySelectorAll('[data-action="openSheet"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      if (!TRACKING_URL || !TRACKING_URL.trim()){
+        alert('Para ver la lista completa, abrí tu Google Sheet directamente desde Drive.');
+        return;
+      }
+      // Abre el endpoint en una pestaña nueva — muestra el JSON con el próximo número
+      const url = TRACKING_URL + (TRACKING_URL.indexOf('?') >= 0 ? '&' : '?') + 'action=nextId';
+      window.open(url, '_blank');
+    });
   });
 
   // Restablecer (preserva la configuración del vendedor)
