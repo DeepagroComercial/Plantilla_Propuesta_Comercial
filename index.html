@@ -1776,18 +1776,12 @@ table.prop tr.row-grandtotal td:first-child strong{
     downloadFile(csvName, 'text/csv', buildTrackingCSV());
   });
 
-  // Link "Abrir Google Sheet": pregunta al endpoint cuál es el próximo número y lo muestra en un alert
+  // Link "Google Sheet": abre directamente la Sheet maestra de propuestas
+  const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1MKGGdIp0Q796q4UirwfZ7uq-6wzyejZtJKpm3CHZBH4/edit';
   document.querySelectorAll('[data-action="openSheet"]').forEach(function(link){
-    link.addEventListener('click', function(e){
-      e.preventDefault();
-      if (!TRACKING_URL || !TRACKING_URL.trim()){
-        alert('Para ver la lista completa, abrí tu Google Sheet directamente desde Drive.');
-        return;
-      }
-      // Abre el endpoint en una pestaña nueva — muestra el JSON con el próximo número
-      const url = TRACKING_URL + (TRACKING_URL.indexOf('?') >= 0 ? '&' : '?') + 'action=nextId';
-      window.open(url, '_blank');
-    });
+    link.setAttribute('href', SHEET_URL);
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener');
   });
 
   // Restablecer (preserva la configuración del vendedor)
