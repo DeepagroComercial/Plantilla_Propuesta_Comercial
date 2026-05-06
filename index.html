@@ -1530,15 +1530,26 @@ table.prop tr.row-grandtotal td:first-child strong{
       const testPayload = collectTrackingData();
       testPayload.clientName = '*** PRUEBA DE CONEXIÓN ***';
       testPayload.docId = 'TEST-' + new Date().toISOString().slice(0,16);
+      const formBody = 'payload=' + encodeURIComponent(JSON.stringify(testPayload));
       try {
         fetch(TRACKING_URL, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: {'Content-Type': 'text/plain;charset=utf-8'},
-          body: JSON.stringify(testPayload),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+          body: formBody,
+          redirect: 'follow',
         })
-        .then(function(){
-          showTrackingStatus('ok', '✓ Prueba enviada. Revisá tu Google Sheet — debería aparecer una fila con cliente "*** PRUEBA DE CONEXIÓN ***".');
+        .then(function(r){ return r.text(); })
+        .then(function(txt){
+          let ok = true;
+          try {
+            const parsed = JSON.parse(txt);
+            ok = parsed && parsed.status === 'ok';
+          } catch(e) {}
+          if (ok) {
+            showTrackingStatus('ok', '✓ Prueba enviada y confirmada por el servidor. Revisá tu Google Sheet — debería aparecer una fila con cliente "*** PRUEBA DE CONEXIÓN ***".');
+          } else {
+            showTrackingStatus('fail', '✗ El servidor respondió con error. Respuesta: ' + txt.slice(0, 100));
+          }
         })
         .catch(function(err){
           showTrackingStatus('fail', '✗ Falló la conexión: ' + err.message);
@@ -1662,10 +1673,9 @@ table.prop tr.row-grandtotal td:first-child strong{
 
   // ===========================================================
   // Envío al endpoint de tracking (Google Apps Script)
-  //   Devuelve una promesa que se resuelve con true/false según éxito.
-  //   Usamos modo 'no-cors' porque Apps Script no responde con CORS headers
-  //   amigables — esto significa que NO podemos leer la respuesta, pero
-  //   el envío llega igual al servidor. Si la red falla, el catch dispara.
+  //   Usa application/x-www-form-urlencoded con un parámetro 'payload'
+  //   que contiene el JSON. Esto evita el preflight CORS y permite leer
+  //   la respuesta del servidor (a diferencia de no-cors).
   // ===========================================================
   function sendToTracking(){
     return new Promise(function(resolve){
@@ -1674,14 +1684,25 @@ table.prop tr.row-grandtotal td:first-child strong{
         return;
       }
       const payload = collectTrackingData();
+      const formBody = 'payload=' + encodeURIComponent(JSON.stringify(payload));
       try {
         fetch(TRACKING_URL, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: {'Content-Type': 'text/plain;charset=utf-8'}, // text/plain evita preflight CORS
-          body: JSON.stringify(payload),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+          body: formBody,
+          redirect: 'follow',
         })
-        .then(function(){ resolve(true); })
+        .then(function(r){ return r.text(); })
+        .then(function(txt){
+          // El Apps Script responde con JSON {"status":"ok"} o {"status":"error"}
+          try {
+            const parsed = JSON.parse(txt);
+            resolve(parsed && parsed.status === 'ok');
+          } catch(e) {
+            // Si no es JSON pero respondió, asumimos OK
+            resolve(true);
+          }
+        })
         .catch(function(err){
           console.error('Tracking failed:', err);
           resolve(false);
