@@ -703,7 +703,6 @@ table.prop tr.row-grandtotal td:first-child strong{
         <input type="text" data-input="sellerInitials" value="" placeholder="AP" maxlength="4" style="text-transform:uppercase;font-weight:700;text-align:center;font-family:var(--font-mono);"></div>
       <div class="ed-field"><label>Nombre completo del vendedor</label>
         <input type="text" data-input="sellerName" value="" placeholder="Alberto Peirano"></div>
-      <button type="button" class="mini-btn" data-action="testTracking" style="margin-top:6px;">Probar conexión con tracking</button>
     </div>
 
     <div class="ed-section">
@@ -1118,12 +1117,9 @@ table.prop tr.row-grandtotal td:first-child strong{
 
   const STORAGE_KEY = 'deepagro_propuesta_data_v2';
 
-  // ===========================================================
-  // Endpoint de tracking (Google Apps Script Web App)
-  // Si está vacío, el envío automático queda deshabilitado y
-  // solo se descarga el CSV como respaldo.
-  // ===========================================================
-  const TRACKING_URL = 'https://script.google.com/macros/s/AKfycbw14lcFbGzI6JLYIzujMKDXha6qONSLvuLhp4EquzaU04i56pnsU-fl-OzAPZzP5yn0kg/exec';
+  // Tracking automático deshabilitado — la plantilla solo descarga PDF + CSV.
+  // El equipo sube ambos archivos a la carpeta de Drive del equipo.
+  const TRACKING_URL = '';
 
   // ===========================================================
   // Estado: campos simples + listas de filas (precios y resumen)
@@ -1517,49 +1513,6 @@ table.prop tr.row-grandtotal td:first-child strong{
     saveState();
   });
 
-  // Botón: probar conexión con tracking (envía un registro de prueba)
-  const testBtn = document.querySelector('[data-action="testTracking"]');
-  if (testBtn){
-    testBtn.addEventListener('click', function(){
-      if (!TRACKING_URL || !TRACKING_URL.trim()){
-        alert('El tracking automático no está configurado en esta plantilla.');
-        return;
-      }
-      // Forzar un cliente "TEST" temporal para que se distinga en la Sheet
-      showTrackingStatus('pending', 'Enviando registro de prueba…');
-      const testPayload = collectTrackingData();
-      testPayload.clientName = '*** PRUEBA DE CONEXIÓN ***';
-      testPayload.docId = 'TEST-' + new Date().toISOString().slice(0,16);
-      const formBody = 'payload=' + encodeURIComponent(JSON.stringify(testPayload));
-      try {
-        fetch(TRACKING_URL, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-          body: formBody,
-          redirect: 'follow',
-        })
-        .then(function(r){ return r.text(); })
-        .then(function(txt){
-          let ok = true;
-          try {
-            const parsed = JSON.parse(txt);
-            ok = parsed && parsed.status === 'ok';
-          } catch(e) {}
-          if (ok) {
-            showTrackingStatus('ok', '✓ Prueba enviada y confirmada por el servidor. Revisá tu Google Sheet — debería aparecer una fila con cliente "*** PRUEBA DE CONEXIÓN ***".');
-          } else {
-            showTrackingStatus('fail', '✗ El servidor respondió con error. Respuesta: ' + txt.slice(0, 100));
-          }
-        })
-        .catch(function(err){
-          showTrackingStatus('fail', '✗ Falló la conexión: ' + err.message);
-        });
-      } catch(err){
-        showTrackingStatus('fail', '✗ Error: ' + err.message);
-      }
-    });
-  }
-
   // ===========================================================
   // Helpers para descarga / exportación
   // ===========================================================
@@ -1672,66 +1625,7 @@ table.prop tr.row-grandtotal td:first-child strong{
   }
 
   // ===========================================================
-  // Envío al endpoint de tracking (Google Apps Script)
-  //   Usa application/x-www-form-urlencoded con un parámetro 'payload'
-  //   que contiene el JSON. Esto evita el preflight CORS y permite leer
-  //   la respuesta del servidor (a diferencia de no-cors).
-  // ===========================================================
-  function sendToTracking(){
-    return new Promise(function(resolve){
-      if (!TRACKING_URL || !TRACKING_URL.trim()){
-        resolve(false);
-        return;
-      }
-      const payload = collectTrackingData();
-      const formBody = 'payload=' + encodeURIComponent(JSON.stringify(payload));
-      try {
-        fetch(TRACKING_URL, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-          body: formBody,
-          redirect: 'follow',
-        })
-        .then(function(r){ return r.text(); })
-        .then(function(txt){
-          // El Apps Script responde con JSON {"status":"ok"} o {"status":"error"}
-          try {
-            const parsed = JSON.parse(txt);
-            resolve(parsed && parsed.status === 'ok');
-          } catch(e) {
-            // Si no es JSON pero respondió, asumimos OK
-            resolve(true);
-          }
-        })
-        .catch(function(err){
-          console.error('Tracking failed:', err);
-          resolve(false);
-        });
-      } catch(err){
-        console.error('Tracking exception:', err);
-        resolve(false);
-      }
-    });
-  }
-
-  // Indicador visual del estado del envío
-  function showTrackingStatus(state, msg){
-    let el = document.getElementById('trackingStatus');
-    if (!el){
-      el = document.createElement('div');
-      el.id = 'trackingStatus';
-      document.body.appendChild(el);
-    }
-    el.className = 'tracking-status tracking-' + state;
-    el.textContent = msg;
-    el.style.display = 'block';
-    if (state === 'ok' || state === 'fail'){
-      setTimeout(function(){ el.style.display = 'none'; }, 5000);
-    }
-  }
-
-  // ===========================================================
-  // Imprimir: enviar al tracking + descargar CSV + imprimir
+  // Imprimir: descargar PDF + CSV
   // ===========================================================
   function handlePrint(){
     // Validar iniciales del vendedor
@@ -1751,36 +1645,26 @@ table.prop tr.row-grandtotal td:first-child strong{
     }
 
     const docId = composeDocId();
-    const trackingMsg = TRACKING_URL && TRACKING_URL.trim()
-      ? '  1. Registrará la propuesta en el sistema de tracking (Google Sheet).\n  2. Descargará un CSV de respaldo.\n  3. Abrirá el diálogo de impresión.'
-      : '  1. Descargará un CSV de tracking.\n  2. Abrirá el diálogo de impresión.';
     const ok = confirm(
       'Vas a generar la propuesta ' + docId + '.\n\n' +
-      'Esto:\n' + trackingMsg + '\n\n' +
+      'Esto:\n' +
+      '  1. Descargará un CSV con todos los datos.\n' +
+      '  2. Abrirá el diálogo de impresión para guardar el PDF.\n\n' +
+      'IMPORTANTE: Subí ambos archivos (PDF + CSV) a la carpeta de Drive del equipo.\n\n' +
       '¿Continuar?'
     );
     if (!ok) return;
 
-    // 1. Enviar al tracking (en background, no bloquea)
-    showTrackingStatus('pending', 'Registrando propuesta…');
-    sendToTracking().then(function(success){
-      if (success){
-        showTrackingStatus('ok', '✓ Propuesta ' + docId + ' registrada en el tracking.');
-      } else {
-        showTrackingStatus('fail', '⚠ No se pudo registrar online. El CSV descargado sirve como respaldo manual.');
-      }
-    });
-
-    // 2. Descargar CSV de respaldo
+    // 1. Descargar CSV
     const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
     const csvName = 'Tracking_' + client + '_' + todayISO() + '_' + docId + '.csv';
     downloadFile(csvName, 'text/csv', buildTrackingCSV());
 
-    // 3. Sugerir nombre del PDF al usuario (Chrome usa document.title como sugerencia)
+    // 2. Sugerir nombre del PDF al usuario (Chrome usa document.title como sugerencia)
     const originalTitle = document.title;
     document.title = suggestedFilename().replace(/\.pdf$/, '');
 
-    // 4. Disparar impresión
+    // 3. Disparar impresión
     setTimeout(function(){
       window.print();
       setTimeout(function(){ document.title = originalTitle; }, 1000);
