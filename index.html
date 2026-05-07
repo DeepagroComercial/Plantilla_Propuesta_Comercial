@@ -366,6 +366,38 @@ table.prop.summary-table tr.row-highlight.row-bold td.strong-green{
   border-bottom-color:var(--da-yellow-700);
 }
 
+.editor-panel .ed-section.ed-word-alt{
+  background:var(--da-n-50);
+  border:1px dashed var(--da-n-200);
+  border-radius:6px;
+  padding:14px 16px;
+  margin-top:18px;
+  margin-bottom:0;
+}
+.editor-panel .ed-section.ed-word-alt > .ed-section-title{
+  border-bottom:0;
+  padding-bottom:4px;
+  font-size:11px;
+}
+.word-download-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  width:100%;
+  box-sizing:border-box;
+  padding:10px 14px;
+  background:#2A5DB0;
+  color:#fff !important;
+  text-decoration:none;
+  border-radius:5px;
+  font:600 12px/1 var(--font-display);
+  letter-spacing:.04em;
+  text-align:center;
+  justify-content:center;
+  transition:background .15s;
+}
+.word-download-btn:hover{background:#1F4A8E}
+
 .editor-panel .ed-section{margin-bottom:22px;border-bottom:1px solid var(--da-n-100);padding-bottom:18px}
 .editor-panel .ed-section:last-child{border-bottom:0}
 .editor-panel .ed-section > .ed-section-title{
@@ -795,6 +827,13 @@ table.prop tr.row-grandtotal td:first-child strong{
         <input type="text" data-input="contactPhone" value="+54 9 341 6825723"></div>
       <div class="ed-field"><label>Email</label>
         <input type="text" data-input="contactEmail" value="apeirano@deepagro.com"></div>
+    </div>
+
+    <div class="ed-section ed-word-alt">
+      <div class="ed-section-title" style="color:var(--da-n-600);">¿Necesitás más personalización?</div>
+      <p class="ed-help">Si esta propuesta requiere cambios fuera de lo común (textos, secciones extra, condiciones especiales), descargá la versión Word y editala libremente.</p>
+      <a href="Plantilla_Propuesta_DeepAgro.docx" download class="word-download-btn">⬇ Descargar versión Word (.docx)</a>
+      <p class="ed-help" style="margin-top:8px;font-size:10px;">⚠ La versión Word no se trackea automáticamente. Si la usás, cargá la propuesta a mano en el Google Form.</p>
     </div>
 
   </div>
