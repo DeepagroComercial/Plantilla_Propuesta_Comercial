@@ -252,7 +252,6 @@ table.prop .dsc{color:var(--da-red);font-weight:800}
 .tl .year{font:900 9pt/1 var(--font-display);text-transform:uppercase;letter-spacing:.18em;opacity:.85}
 .tl .pct{font:900 38pt/1 var(--font-display);letter-spacing:-.04em;margin-top:4mm}
 .tl:nth-child(3) .pct{color:var(--ink)}
-.tl .pct.lista{font-size:22pt;margin-top:7mm;color:var(--ink)}
 .tl .d{font:500 9pt/1.5 var(--font-body);margin-top:4mm;opacity:.85}
 
 /* ---------- COND GRID ---------- */
@@ -957,6 +956,8 @@ table.prop tr.row-grandtotal td:first-child strong{
           <textarea data-input="p5HitoText2" rows="3"></textarea></div>
         <div class="ed-field"><label>Hito 3 — Etiqueta (ej. "Entrega")</label>
           <textarea data-input="p5HitoLabel3" rows="1"></textarea></div>
+        <div class="ed-field"><label>Hito 3 — Porcentaje (sin el %)</label>
+          <input type="text" data-input="hito3Pct" value="100" placeholder="100"></div>
         <div class="ed-field"><label>Texto al pie de los hitos</label>
           <textarea data-input="p5MutedText" rows="3"></textarea></div>
         <div class="ed-field"><label>Subtítulo "Garantía y soporte"</label>
@@ -1212,7 +1213,7 @@ table.prop tr.row-grandtotal td:first-child strong{
         </div>
         <div class="tl">
           <div class="year" data-bind="p5HitoLabel3" data-allow-html>Entrega</div>
-          <div class="pct lista">100%</div>
+          <div class="pct"><span data-bind="hito3Pct">100</span>%</div>
           <div class="d" data-bind="deliveryDateNote">Fecha estimada: Marzo / Abril de 2026.</div>
         </div>
       </div>
