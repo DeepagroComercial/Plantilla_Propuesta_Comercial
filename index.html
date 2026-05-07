@@ -709,6 +709,8 @@ table.prop tr.row-grandtotal td:first-child strong{
       <div class="ed-section-title">Página 1 · Cliente y validez</div>
       <div class="ed-field"><label>Nombre del cliente</label>
         <input type="text" data-input="clientName" value="El Escondido"></div>
+      <div class="ed-field"><label>Distribuidor <span class="ed-optional">(opcional, si la venta es vía un distribuidor)</span></label>
+        <input type="text" data-input="distributor" value="" placeholder="Ej.: Metalfor"></div>
       <div class="ed-field"><label>Modalidad</label>
         <input type="text" data-input="clientMode" value="Cliente final"></div>
       <div class="ed-field"><label>Validez de la oferta</label>
@@ -840,6 +842,7 @@ table.prop tr.row-grandtotal td:first-child strong{
           <div>
             <div class="k">Para</div>
             <div class="v" data-bind="clientName">El Escondido</div>
+            <div class="via" id="coverVia" style="display:none;font-size:9pt;color:var(--da-n-500);margin-top:1mm;font-weight:500;">Vía: <span data-bind="distributor"></span></div>
           </div>
           <div>
             <div class="k">Modalidad</div>
@@ -1241,6 +1244,10 @@ table.prop tr.row-grandtotal td:first-child strong{
       const block = document.getElementById('financeNotes');
       if (block) block.style.display = (value && value.trim()) ? 'block' : 'none';
     }
+    if (key === 'distributor'){
+      const via = document.getElementById('coverVia');
+      if (via) via.style.display = (value && value.trim()) ? 'block' : 'none';
+    }
   }
 
   function applyAllBindings(){
@@ -1562,7 +1569,7 @@ table.prop tr.row-grandtotal td:first-child strong{
     // Encabezados (lo que va a estar en la fila de Sheets)
     const headers = [
       'Fecha de generación','Vendedor (iniciales)','Vendedor (nombre)','ID documento',
-      'Cliente','Modalidad','Validez de la oferta',
+      'Cliente','Distribuidor','Modalidad','Validez de la oferta',
       'Cantidad de metros','Subtotal por metro (USD)','TOTAL (USD)',
       'Detalle de líneas (precios)',
       'Crops Soja','Crops Maíz','Crops Maní','Crops Algodón','Crops Caña',
@@ -1572,7 +1579,7 @@ table.prop tr.row-grandtotal td:first-child strong{
     const row = [
       data.timestamp,
       data.sellerInitials, data.sellerName, data.docId,
-      data.clientName, data.clientMode, data.validUntil,
+      data.clientName, data.distributor, data.clientMode, data.validUntil,
       data.meters, data.subtotalPerMeter, data.grandTotal,
       data.priceLines,
       data.cropSoja, data.cropMaiz, data.cropMani, data.cropAlgodon, data.cropCana,
@@ -1601,6 +1608,7 @@ table.prop tr.row-grandtotal td:first-child strong{
       sellerName:       inputs.sellerName || '',
       docId:            composeDocId(),
       clientName:       inputs.clientName || '',
+      distributor:      inputs.distributor || '',
       clientMode:       inputs.clientMode || '',
       validUntil:       inputs.validUntil || '',
       meters:           meters,
@@ -1630,12 +1638,13 @@ table.prop tr.row-grandtotal td:first-child strong{
   // ===========================================================
   const FORM_BASE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe06CS3ZIW18jEVnSA0eo8JeMjaFursS0IjO1s2evGXBooAAQ/viewform';
   const FORM_FIELDS = {
-    vendedor:  'entry.102678544',
-    cliente:   'entry.63288386',
-    numero:    'entry.963876870',
-    modalidad: 'entry.1014614259',
-    total:     'entry.802948725',
-    fecha:     'entry.719482920',
+    vendedor:    'entry.102678544',
+    cliente:     'entry.63288386',
+    distributor: 'entry.990130507',
+    numero:      'entry.963876870',
+    modalidad:   'entry.1014614259',
+    total:       'entry.802948725',
+    fecha:       'entry.719482920',
   };
 
   function buildPrefilledFormUrl(){
@@ -1653,12 +1662,13 @@ table.prop tr.row-grandtotal td:first-child strong{
     const today = todayISO();
 
     const params = {};
-    params[FORM_FIELDS.vendedor]  = data.sellerName || data.sellerInitials || '';
-    params[FORM_FIELDS.cliente]   = data.clientName || '';
-    params[FORM_FIELDS.numero]    = data.docId || '';
-    params[FORM_FIELDS.modalidad] = modalityForm;
-    params[FORM_FIELDS.total]     = String(data.grandTotal || 0);
-    params[FORM_FIELDS.fecha]     = today;
+    params[FORM_FIELDS.vendedor]    = data.sellerName || data.sellerInitials || '';
+    params[FORM_FIELDS.cliente]     = data.clientName || '';
+    params[FORM_FIELDS.distributor] = data.distributor || '';
+    params[FORM_FIELDS.numero]      = data.docId || '';
+    params[FORM_FIELDS.modalidad]   = modalityForm;
+    params[FORM_FIELDS.total]       = String(data.grandTotal || 0);
+    params[FORM_FIELDS.fecha]       = today;
 
     const qs = Object.keys(params).map(function(k){
       return k + '=' + encodeURIComponent(params[k]);
