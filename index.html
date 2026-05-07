@@ -110,7 +110,7 @@ html,body{margin:0;padding:0;background:#141411;font-family:var(--font-body);col
 .cover.va .bg{position:absolute;inset:0;background:radial-gradient(90mm 60mm at 85% 20%,rgba(244,178,35,.45),transparent 70%),linear-gradient(135deg,#0a3619 0%,#0f5028 45%,#005151 100%)}
 .cover.va .rows{position:absolute;inset:40% -25% -15%;background:repeating-linear-gradient(92deg,rgba(244,178,35,0) 0,rgba(244,178,35,0) 42px,rgba(244,178,35,.28) 42px,rgba(244,178,35,.28) 44px,rgba(244,178,35,0) 44px,rgba(244,178,35,0) 46px,rgba(255,255,255,.08) 46px,rgba(255,255,255,.08) 50px);transform:perspective(600px) rotateX(72deg);transform-origin:center top;-webkit-mask-image:linear-gradient(transparent 0%,#000 20%,#000 85%,transparent 100%);mask-image:linear-gradient(transparent 0%,#000 20%,#000 85%,transparent 100%)}
 .cover.va::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10mm;background:var(--da-yellow);z-index:3}
-.cover.va::after{content:"SPRAI · SMART SPRAYING TECHNOLOGY · AI · SELECTIVE · SOYBEAN · CORN · COTTON · SUGARCANE · ";position:absolute;right:6mm;top:0;bottom:0;width:6mm;writing-mode:vertical-rl;text-orientation:mixed;font:700 7pt/6mm var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;z-index:3}
+.cover.va .side-tag{content:"";position:absolute;right:6mm;top:0;bottom:0;width:6mm;writing-mode:vertical-rl;text-orientation:mixed;font:700 7pt/6mm var(--font-mono);letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;z-index:3;display:flex;align-items:center}
 .cover.va .pad{padding-left:26mm;padding-right:22mm}
 
 .cover .pad{position:relative;z-index:2;justify-content:space-between;padding:22mm 18mm}
@@ -413,6 +413,82 @@ table.prop.summary-table tr.row-highlight.row-bold td.strong-green{
   box-shadow:0 0 0 2px rgba(29,134,73,.18);
 }
 .editor-panel .ed-field textarea{min-height:60px;resize:vertical;font-family:inherit}
+.editor-panel details.ed-advanced{
+  margin:18px -2px;
+  background:linear-gradient(180deg,#fafafa,#fff);
+  border:1px solid var(--da-n-200);
+  border-left:3px solid var(--da-green);
+  border-radius:6px;
+  padding:0;
+}
+.editor-panel details.ed-advanced > summary{
+  cursor:pointer;
+  padding:10px 14px;
+  font:600 11px/1.2 var(--font-display);
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--da-n-700);
+  list-style:none;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.editor-panel details.ed-advanced > summary::-webkit-details-marker{display:none}
+.editor-panel details.ed-advanced > summary::before{
+  content:"▶";
+  display:inline-block;
+  font-size:9px;
+  color:var(--da-green);
+  transition:transform .15s;
+}
+.editor-panel details.ed-advanced[open] > summary::before{transform:rotate(90deg)}
+.editor-panel details.ed-advanced > summary:hover{background:var(--da-n-50)}
+.editor-panel details.ed-advanced .ed-advanced-body{
+  padding:4px 14px 14px;
+  border-top:1px solid var(--da-n-100);
+}
+.editor-panel details.ed-advanced .ed-field textarea{
+  width:100%;
+  min-height:80px;
+  font:400 12px/1.5 var(--font-body);
+  padding:8px 10px;
+  border:1px solid var(--da-n-200);
+  border-radius:5px;
+  resize:vertical;
+  box-sizing:border-box;
+  font-family:var(--font-body);
+}
+.editor-panel details.ed-advanced .ed-field textarea:focus{
+  border-color:var(--da-green);
+  outline:0;
+  box-shadow:0 0 0 2px rgba(29,134,73,.15);
+}
+.editor-panel details.ed-advanced .ed-reset-section{
+  background:transparent;
+  color:var(--da-n-500);
+  border:1px solid var(--da-n-200);
+  font:600 10px/1 var(--font-display);
+  letter-spacing:.03em;
+  padding:6px 10px;
+  border-radius:4px;
+  cursor:pointer;
+  margin-top:8px;
+}
+.editor-panel details.ed-advanced .ed-reset-section:hover{
+  background:var(--da-n-50);
+  color:var(--da-n-700);
+}
+.editor-panel details.ed-advanced .ed-html-tip{
+  font:400 10px/1.4 var(--font-body);
+  color:var(--da-n-500);
+  font-style:italic;
+  margin:8px 0 12px;
+  padding:6px 8px;
+  background:var(--da-n-50);
+  border-radius:4px;
+}
+
 .editor-panel .ed-actions{
   padding:14px 18px;
   background:var(--da-n-50);
@@ -737,6 +813,8 @@ table.prop tr.row-grandtotal td:first-child strong{
           <input type="text" data-input="proposalEyebrow" value="Propuesta Comercial · SprAI"></div>
         <div class="ed-field"><label>Cita de portada</label>
           <textarea data-input="quote">El valor de una empresa no está dado solamente por los ingresos que genera, sino también por las personas que hacen que esto pase.</textarea></div>
+        <div class="ed-field"><label>Tira lateral derecha</label>
+          <textarea data-input="sideTag" rows="2">SPRAI · SMART SPRAYING TECHNOLOGY · AI · SELECTIVE · SOYBEAN · CORN · COTTON · SUGARCANE</textarea></div>
       </details>
     </div>
 
@@ -797,6 +875,112 @@ table.prop tr.row-grandtotal td:first-child strong{
         <input type="text" data-input="contactEmail" value="apeirano@deepagro.com"></div>
     </div>
 
+    <!-- ===========================================================
+         AVANZADO: TEXTOS EDITABLES (todos colapsables, cerrados por defecto)
+         =========================================================== -->
+
+    <details class="ed-advanced" data-advanced-section="p2">
+      <summary>Avanzado · Textos de página 2 (Objetivo)</summary>
+      <div class="ed-advanced-body">
+        <p class="ed-html-tip">Podés usar &lt;strong&gt;, &lt;em&gt; y &lt;br&gt; en estos textos.</p>
+        <div class="ed-field"><label>Título principal</label>
+          <textarea data-input="p2Title" rows="2"></textarea></div>
+        <div class="ed-field"><label>Párrafo principal (lead)</label>
+          <textarea data-input="p2Lead" rows="6"></textarea></div>
+        <div class="ed-field"><label>Subtítulo</label>
+          <textarea data-input="p2SubTitle" rows="2"></textarea></div>
+        <div class="ed-field"><label>Texto del subtítulo</label>
+          <textarea data-input="p2SubText" rows="5"></textarea></div>
+        <div class="ed-field"><label>Texto del callout (Lo que recibe el cliente)</label>
+          <textarea data-input="p2CalloutText" rows="5"></textarea></div>
+        <button type="button" class="ed-reset-section" data-reset-section="p2">↻ Restablecer textos de la página 2</button>
+      </div>
+    </details>
+
+    <details class="ed-advanced" data-advanced-section="p3">
+      <summary>Avanzado · Textos de página 3 (Composición)</summary>
+      <div class="ed-advanced-body">
+        <p class="ed-html-tip">Podés usar &lt;strong&gt;, &lt;em&gt; y &lt;br&gt;. Para listas, usá &lt;li&gt;item&lt;/li&gt; (un &lt;li&gt; por bullet).</p>
+        <div class="ed-field"><label>Título principal</label>
+          <textarea data-input="p3Title" rows="2"></textarea></div>
+        <div class="ed-field"><label>Párrafo principal (lead)</label>
+          <textarea data-input="p3Lead" rows="4"></textarea></div>
+        <div class="ed-field"><label>Bloque 1 — Título</label>
+          <textarea data-input="p3T1" rows="1"></textarea></div>
+        <div class="ed-field"><label>Bloque 1 — Bullets (HTML &lt;li&gt;)</label>
+          <textarea data-input="p3L1" rows="6"></textarea></div>
+        <div class="ed-field"><label>Bloque 2 — Título</label>
+          <textarea data-input="p3T2" rows="1"></textarea></div>
+        <div class="ed-field"><label>Bloque 2 — Bullets (HTML &lt;li&gt;)</label>
+          <textarea data-input="p3L2" rows="5"></textarea></div>
+        <div class="ed-field"><label>Bloque 3 — Título</label>
+          <textarea data-input="p3T3" rows="1"></textarea></div>
+        <div class="ed-field"><label>Bloque 3 — Bullets (HTML &lt;li&gt;)</label>
+          <textarea data-input="p3L3" rows="5"></textarea></div>
+        <div class="ed-field"><label>Subtítulo "Servicios y garantía"</label>
+          <textarea data-input="p3ServicesTitle" rows="1"></textarea></div>
+        <div class="ed-field"><label>Servicio 1 — Etiqueta</label>
+          <textarea data-input="p3S1k" rows="1"></textarea></div>
+        <div class="ed-field"><label>Servicio 1 — Descripción</label>
+          <textarea data-input="p3S1v" rows="2"></textarea></div>
+        <div class="ed-field"><label>Servicio 2 — Etiqueta</label>
+          <textarea data-input="p3S2k" rows="1"></textarea></div>
+        <div class="ed-field"><label>Servicio 2 — Descripción</label>
+          <textarea data-input="p3S2v" rows="2"></textarea></div>
+        <div class="ed-field"><label>Servicio 3 — Etiqueta</label>
+          <textarea data-input="p3S3k" rows="1"></textarea></div>
+        <div class="ed-field"><label>Servicio 3 — Descripción</label>
+          <textarea data-input="p3S3v" rows="2"></textarea></div>
+        <div class="ed-field"><label>Servicio 4 — Etiqueta</label>
+          <textarea data-input="p3S4k" rows="1"></textarea></div>
+        <div class="ed-field"><label>Servicio 4 — Descripción</label>
+          <textarea data-input="p3S4v" rows="2"></textarea></div>
+        <button type="button" class="ed-reset-section" data-reset-section="p3">↻ Restablecer textos de la página 3</button>
+      </div>
+    </details>
+
+    <details class="ed-advanced" data-advanced-section="p5">
+      <summary>Avanzado · Textos de página 5 (Reserva y entrega)</summary>
+      <div class="ed-advanced-body">
+        <p class="ed-html-tip">Podés usar &lt;strong&gt;, &lt;em&gt; y &lt;br&gt; en estos textos.</p>
+        <div class="ed-field"><label>Título principal</label>
+          <textarea data-input="p5Title" rows="2"></textarea></div>
+        <div class="ed-field"><label>Subtítulo "Hitos"</label>
+          <textarea data-input="p5HitosTitle" rows="1"></textarea></div>
+        <div class="ed-field"><label>Hito 1 — Etiqueta (ej. "Reserva")</label>
+          <textarea data-input="p5HitoLabel1" rows="1"></textarea></div>
+        <div class="ed-field"><label>Hito 1 — Descripción</label>
+          <textarea data-input="p5HitoText1" rows="3"></textarea></div>
+        <div class="ed-field"><label>Hito 2 — Etiqueta (ej. "Despacho")</label>
+          <textarea data-input="p5HitoLabel2" rows="1"></textarea></div>
+        <div class="ed-field"><label>Hito 2 — Descripción</label>
+          <textarea data-input="p5HitoText2" rows="3"></textarea></div>
+        <div class="ed-field"><label>Hito 3 — Etiqueta (ej. "Entrega")</label>
+          <textarea data-input="p5HitoLabel3" rows="1"></textarea></div>
+        <div class="ed-field"><label>Texto al pie de los hitos</label>
+          <textarea data-input="p5MutedText" rows="3"></textarea></div>
+        <div class="ed-field"><label>Subtítulo "Garantía y soporte"</label>
+          <textarea data-input="p5WarrantyTitle" rows="1"></textarea></div>
+        <div class="ed-field"><label>Texto de Garantía y soporte</label>
+          <textarea data-input="p5WarrantyText" rows="5"></textarea></div>
+        <button type="button" class="ed-reset-section" data-reset-section="p5">↻ Restablecer textos de la página 5</button>
+      </div>
+    </details>
+
+    <details class="ed-advanced" data-advanced-section="p6">
+      <summary>Avanzado · Textos de página 6 (Cierre)</summary>
+      <div class="ed-advanced-body">
+        <p class="ed-html-tip">Podés usar &lt;strong&gt;, &lt;em&gt; y &lt;br&gt; en estos textos.</p>
+        <div class="ed-field"><label>Título principal</label>
+          <textarea data-input="p6Title" rows="2"></textarea></div>
+        <div class="ed-field"><label>Párrafo principal (lead)</label>
+          <textarea data-input="p6Lead" rows="5"></textarea></div>
+        <div class="ed-field"><label>Subtítulo del resumen (ej. "Modalidad: ... · Modelo SMART...")</label>
+          <textarea data-input="p6SummarySubtitle" rows="3"></textarea></div>
+        <button type="button" class="ed-reset-section" data-reset-section="p6">↻ Restablecer textos de la página 6</button>
+      </div>
+    </details>
+
   </div>
 
   <div class="ed-actions">
@@ -821,6 +1005,7 @@ table.prop tr.row-grandtotal td:first-child strong{
   <section class="page cover va" id="page-cover">
     <div class="bg"></div>
     <div class="rows"></div>
+    <div class="side-tag" data-bind="sideTag">SPRAI · SMART SPRAYING TECHNOLOGY · AI · SELECTIVE · SOYBEAN · CORN · COTTON · SUGARCANE</div>
     <div class="pad">
       <div class="top">
         <div class="logo">DeepAgro<span class="tm">®</span></div>
@@ -850,7 +1035,7 @@ table.prop tr.row-grandtotal td:first-child strong{
           </div>
         </div>
 
-        <div class="quote-block" data-bind="quote">El valor de una empresa no está dado solamente por los ingresos que genera, sino también por las personas que hacen que esto pase.</div>
+        <div class="quote-block" data-bind="quote" data-allow-html>El valor de una empresa no está dado solamente por los ingresos que genera, sino también por las personas que hacen que esto pase.</div>
       </div>
 
       <div class="bottom">
@@ -870,8 +1055,8 @@ table.prop tr.row-grandtotal td:first-child strong{
     <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
     <div class="pad">
       <div class="sect-eb"><span class="num">01</span>Objetivo</div>
-      <h2 class="sect">Innovación en agricultura <em>inteligente.</em></h2>
-      <p class="lead">
+      <h2 class="sect" data-bind="p2Title" data-allow-html>Innovación en agricultura <em>inteligente.</em></h2>
+      <p class="lead" data-bind="p2Lead" data-allow-html>
         <strong>SprAI</strong> es un sistema de aplicación selectiva basado en inteligencia artificial y visión
         artificial, que permite la <strong>detección milimétrica de malezas</strong> sobre cultivos en cualquier
         estadio. Permite aplicar herbicidas de forma eficiente y selectiva, con ahorros de hasta el 70% en
@@ -896,8 +1081,8 @@ table.prop tr.row-grandtotal td:first-child strong{
         </div>
       </div>
 
-      <h3 class="sub" style="margin-top:6mm;">Una propuesta única que redefine la forma de aplicar tecnología en el agro</h3>
-      <p>
+      <h3 class="sub" style="margin-top:6mm;" data-bind="p2SubTitle" data-allow-html>Una propuesta única que redefine la forma de aplicar tecnología en el agro</h3>
+      <p data-bind="p2SubText" data-allow-html>
         DeepAgro combina ciencia, agronomía y un equipo técnico comprometido con brindar
         <strong>soporte cercano y personalizado</strong>. SprAI redefine la forma de aplicar herbicidas:
         menos insumos, menos agua, menos traslados de envases y mejores resultados en control de malezas.
@@ -905,7 +1090,7 @@ table.prop tr.row-grandtotal td:first-child strong{
 
       <div class="callout">
         <span class="k">Lo que recibe <span data-bind="clientName">El Escondido</span></span>
-        <p>
+        <p data-bind="p2CalloutText" data-allow-html>
           Equipo SprAI completo con instalación y puesta en marcha incluidas, capacitación al equipo de
           trabajo, <strong>12 meses de garantía de fábrica</strong> y soporte técnico especializado
           (remoto y presencial) durante toda la vida útil del equipo.
@@ -922,47 +1107,33 @@ table.prop tr.row-grandtotal td:first-child strong{
     <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
     <div class="pad">
       <div class="sect-eb"><span class="num">02</span>Producto</div>
-      <h2 class="sect">Composición del equipo <em>SprAI.</em></h2>
-      <p class="lead">
+      <h2 class="sect" data-bind="p3Title" data-allow-html>Composición del equipo <em>SprAI.</em></h2>
+      <p class="lead" data-bind="p3Lead" data-allow-html>
         Sistema completo de aplicación selectiva: hardware, software y servicios de instalación,
         capacitación y soporte. Diseñado para operar 24/7 con la máxima precisión.
       </p>
 
       <div class="eq-grid eq-grid-3">
         <div class="eq">
-          <div class="h"><span class="badge">1</span><h4>Módulos SprAI</h4></div>
-          <ul>
-            <li>Un módulo cada <strong>2 metros</strong> de botalón</li>
-            <li>Portapicos a 40 cm con pastillas Teejet 4003 E</li>
-            <li>Electroválvula en cada antigoteo</li>
-            <li>Compensación Ramsey para control de presión</li>
-            <li>Soportería de acero inoxidable</li>
-          </ul>
+          <div class="h"><span class="badge">1</span><h4 data-bind="p3T1" data-allow-html>Módulos SprAI</h4></div>
+          <ul data-bind="p3L1" data-allow-html><li>Un módulo cada <strong>2 metros</strong> de botalón</li><li>Portapicos a 40 cm con pastillas Teejet 4003 E</li><li>Electroválvula en cada antigoteo</li><li>Compensación Ramsey para control de presión</li><li>Soportería de acero inoxidable</li></ul>
         </div>
         <div class="eq">
-          <div class="h"><span class="badge">2</span><h4>Sistema eléctrico</h4></div>
-          <ul>
-            <li>Instalación con cableado a batería actual</li>
-            <li>Caja de potencia con fusilera</li>
-            <li>Módulo de cabina para control</li>
-          </ul>
+          <div class="h"><span class="badge">2</span><h4 data-bind="p3T2" data-allow-html>Sistema eléctrico</h4></div>
+          <ul data-bind="p3L2" data-allow-html><li>Instalación con cableado a batería actual</li><li>Caja de potencia con fusilera</li><li>Módulo de cabina para control</li></ul>
         </div>
         <div class="eq">
-          <div class="h"><span class="badge">3</span><h4>Iluminación</h4></div>
-          <ul>
-            <li>Luces LED para aplicación nocturna</li>
-            <li>Un faro cada metro de botalón</li>
-            <li>Optimización para trabajo <strong>24/7</strong></li>
-          </ul>
+          <div class="h"><span class="badge">3</span><h4 data-bind="p3T3" data-allow-html>Iluminación</h4></div>
+          <ul data-bind="p3L3" data-allow-html><li>Luces LED para aplicación nocturna</li><li>Un faro cada metro de botalón</li><li>Optimización para trabajo <strong>24/7</strong></li></ul>
         </div>
       </div>
 
-      <h3 class="sub" style="margin-top:5mm;">Servicios y garantía incluidos</h3>
+      <h3 class="sub" style="margin-top:5mm;" data-bind="p3ServicesTitle" data-allow-html>Servicios y garantía incluidos</h3>
       <div class="cond-grid">
-        <div class="cond"><div class="k">Instalación completa</div><div class="v">Montaje, cableado y puesta a punto en campo.</div></div>
-        <div class="cond"><div class="k">Capacitación</div><div class="v">Formación al equipo de trabajo del cliente.</div></div>
-        <div class="cond"><div class="k">Garantía de fábrica</div><div class="v">12 meses de cobertura completa por DeepAgro.</div></div>
-        <div class="cond"><div class="k">Soporte técnico</div><div class="v">Asistencia remota y presencial especializada.</div></div>
+        <div class="cond"><div class="k" data-bind="p3S1k" data-allow-html>Instalación completa</div><div class="v" data-bind="p3S1v" data-allow-html>Montaje, cableado y puesta a punto en campo.</div></div>
+        <div class="cond"><div class="k" data-bind="p3S2k" data-allow-html>Capacitación</div><div class="v" data-bind="p3S2v" data-allow-html>Formación al equipo de trabajo del cliente.</div></div>
+        <div class="cond"><div class="k" data-bind="p3S3k" data-allow-html>Garantía de fábrica</div><div class="v" data-bind="p3S3v" data-allow-html>12 meses de cobertura completa por DeepAgro.</div></div>
+        <div class="cond"><div class="k" data-bind="p3S4k" data-allow-html>Soporte técnico</div><div class="v" data-bind="p3S4v" data-allow-html>Asistencia remota y presencial especializada.</div></div>
       </div>
     </div>
     <div class="run-f"><span>DEEPAGRO · SPRAI</span><span class="pg">03 <em>/</em> 06</span></div>
@@ -1020,33 +1191,33 @@ table.prop tr.row-grandtotal td:first-child strong{
     <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
     <div class="pad">
       <div class="sect-eb"><span class="num">04</span>Operación</div>
-      <h2 class="sect">Reserva y <em>entrega.</em></h2>
+      <h2 class="sect" data-bind="p5Title" data-allow-html>Reserva y <em>entrega.</em></h2>
       <p class="lead">
         Para garantizar la fabricación y la fecha estimada de entrega, se requiere una
         <strong>seña del <span data-bind="reservePct">5</span>%</strong> sobre el valor del equipo.
         El equipo se despacha una vez completado el <strong>pago total</strong>.
       </p>
 
-      <h3 class="sub">Hitos</h3>
+      <h3 class="sub" data-bind="p5HitosTitle" data-allow-html>Hitos</h3>
       <div class="timeline">
         <div class="tl">
-          <div class="year">Reserva</div>
+          <div class="year" data-bind="p5HitoLabel1" data-allow-html>Reserva</div>
           <div class="pct"><span data-bind="reservePct">5</span>%</div>
-          <div class="d">Seña al confirmar la propuesta — reserva el lugar en la línea de fabricación.</div>
+          <div class="d" data-bind="p5HitoText1" data-allow-html>Seña al confirmar la propuesta — reserva el lugar en la línea de fabricación.</div>
         </div>
         <div class="tl">
-          <div class="year">Despacho</div>
+          <div class="year" data-bind="p5HitoLabel2" data-allow-html>Despacho</div>
           <div class="pct"><span data-bind="balancePct">95</span>%</div>
-          <div class="d">Saldo previo al despacho — el equipo sale de fábrica una vez completado el pago total.</div>
+          <div class="d" data-bind="p5HitoText2" data-allow-html>Saldo previo al despacho — el equipo sale de fábrica una vez completado el pago total.</div>
         </div>
         <div class="tl">
-          <div class="year">Entrega</div>
+          <div class="year" data-bind="p5HitoLabel3" data-allow-html>Entrega</div>
           <div class="pct lista">100%</div>
           <div class="d" data-bind="deliveryDateNote">Fecha estimada: Marzo / Abril de 2026.</div>
         </div>
       </div>
 
-      <p class="muted" style="margin-top:2mm;font-size:9pt;">
+      <p class="muted" style="margin-top:2mm;font-size:9pt;" data-bind="p5MutedText" data-allow-html>
         Las condiciones específicas de pago (contado, financiamiento bancario, plazos) se acuerdan
         de forma personalizada y se formalizan en el contrato comercial.
       </p>
@@ -1056,8 +1227,8 @@ table.prop tr.row-grandtotal td:first-child strong{
         <div class="v" data-bind="financeNotes"></div>
       </div>
 
-      <h3 class="sub" style="margin-top:5mm;">Garantía y soporte</h3>
-      <p>
+      <h3 class="sub" style="margin-top:5mm;" data-bind="p5WarrantyTitle" data-allow-html>Garantía y soporte</h3>
+      <p data-bind="p5WarrantyText" data-allow-html>
         DeepAgro ofrece <strong><span data-bind="warrantyMonths">12</span> meses de garantía de fábrica</strong> sobre el equipo y soporte técnico
         especializado durante toda la vida útil. El soporte combina diagnóstico remoto vía telemetría con
         asistencia presencial cuando se requiere.
@@ -1080,8 +1251,8 @@ table.prop tr.row-grandtotal td:first-child strong{
     <div class="run-h"><span class="l">DeepAgro® → <span data-bind="clientName">El Escondido</span></span><span data-bind="clientName">El Escondido</span></div>
     <div class="pad">
       <div class="sect-eb"><span class="num">05</span>Cierre</div>
-      <h2 class="sect">Próximos <em>pasos.</em></h2>
-      <p class="lead">
+      <h2 class="sect" data-bind="p6Title" data-allow-html>Próximos <em>pasos.</em></h2>
+      <p class="lead" data-bind="p6Lead" data-allow-html>
         Confirmada la propuesta, se coordina la <strong>seña del <span data-bind="reservePct">5</span>%</strong>
         que reserva la fabricación, se planifica la fecha estimada de entrega y se acuerdan las condiciones
         de pago restantes en el contrato comercial.
@@ -1089,7 +1260,7 @@ table.prop tr.row-grandtotal td:first-child strong{
 
       <div class="summary" style="margin-bottom:6mm;">
         <h3 class="sub">Resumen del acuerdo — <span data-bind="clientName">El Escondido</span></h3>
-        <p class="muted" style="margin-bottom:4mm;">Modalidad: <span data-bind="clientMode">cliente final</span> · Modelo SMART con instalación y puesta en marcha incluidas.</p>
+        <p class="muted" style="margin-bottom:4mm;" data-bind="p6SummarySubtitle" data-allow-html>Modalidad: <span data-bind="clientMode">cliente final</span> · Modelo SMART con instalación y puesta en marcha incluidas.</p>
         <table class="prop summary-table" style="margin:0;">
           <tbody data-bind-table="summaryRows">
             <!-- llenado dinámicamente desde el panel -->
@@ -1228,7 +1399,13 @@ table.prop tr.row-grandtotal td:first-child strong{
   // ===========================================================
   function updateBinding(key, value){
     document.querySelectorAll('[data-bind="' + key + '"]').forEach(function(el){
-      el.textContent = value;
+      // Si el elemento tiene data-allow-html, interpretamos como HTML
+      // (esto es para textos largos editables que pueden tener <strong>, <em>, etc.)
+      if (el.hasAttribute('data-allow-html')) {
+        el.innerHTML = value;
+      } else {
+        el.textContent = value;
+      }
     });
     if (key === 'contactEmail'){
       document.querySelectorAll('[data-bind-href="contactEmail"]').forEach(function(el){
@@ -1475,10 +1652,62 @@ table.prop tr.row-grandtotal td:first-child strong{
     });
   }
 
-  // Editor del resumen (P6) — más simple, mismo schema con kind opcional
+  // ===========================================================
+  // Defaults de textos editables (textos avanzados)
+  //   Capturamos el HTML inicial de cada elemento [data-bind] que tenga
+  //   data-allow-html y un textarea correspondiente en el panel.
+  //   Estos defaults se usan para:
+  //   1) Pre-llenar los textareas con el contenido actual
+  //   2) Permitir al usuario "Restablecer textos" a su valor original
+  // ===========================================================
+  const TEXT_DEFAULTS = {};
+
+  function captureTextDefaults(){
+    document.querySelectorAll('[data-bind][data-allow-html]').forEach(function(el){
+      const key = el.getAttribute('data-bind');
+      if (TEXT_DEFAULTS[key] === undefined) {
+        // innerHTML normalizado (sin espacios extra de indentación)
+        TEXT_DEFAULTS[key] = el.innerHTML.trim().replace(/\s+/g, ' ');
+      }
+    });
+    // Casos especiales: textos que están en un span pero queremos guardar también
+    // (tagline, docTag, sideTag son span/div sin data-allow-html, los manejamos como texto plano)
+    ['proposalEyebrow', 'docTag', 'sideTag'].forEach(function(key){
+      const el = document.querySelector('[data-bind="' + key + '"]');
+      if (el && TEXT_DEFAULTS[key] === undefined) {
+        TEXT_DEFAULTS[key] = el.textContent.trim();
+      }
+    });
+  }
+
+  function fillTextareasFromDefaults(){
+    Object.keys(TEXT_DEFAULTS).forEach(function(key){
+      const ta = document.querySelector('textarea[data-input="' + key + '"]');
+      if (ta && !ta.value) {
+        ta.value = TEXT_DEFAULTS[key];
+      }
+    });
+  }
+
+  // Restablecer textos de una sección colapsable a sus defaults
+  function resetSectionTexts(sectionId){
+    const details = document.querySelector('details[data-advanced-section="' + sectionId + '"]');
+    if (!details) return;
+    details.querySelectorAll('textarea[data-input]').forEach(function(ta){
+      const key = ta.getAttribute('data-input');
+      if (TEXT_DEFAULTS[key] !== undefined) {
+        ta.value = TEXT_DEFAULTS[key];
+        updateBinding(key, ta.value);
+      }
+    });
+    saveState();
+  }
+
   // ===========================================================
   // Inicialización + listeners
   // ===========================================================
+  captureTextDefaults();
+  fillTextareasFromDefaults();
   applyAllBindings();
   renderPriceRows();
   renderSummaryRows();
@@ -1761,6 +1990,15 @@ table.prop tr.row-grandtotal td:first-child strong{
       }
     } catch(e){}
     location.reload();
+  });
+
+  // Botones "Restablecer textos" por sección colapsable
+  document.querySelectorAll('[data-reset-section]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const sectionId = btn.getAttribute('data-reset-section');
+      if (!confirm('¿Restablecer los textos de esta sección a su valor original?')) return;
+      resetSectionTexts(sectionId);
+    });
   });
 
   // Toggle del panel
