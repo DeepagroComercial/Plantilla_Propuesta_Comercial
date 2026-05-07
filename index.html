@@ -1625,7 +1625,50 @@ table.prop tr.row-grandtotal td:first-child strong{
   }
 
   // ===========================================================
-  // Imprimir: descargar PDF + CSV
+  // Google Form de tracking — IDs de cada campo
+  // (sacados con "Get pre-filled link" del Form)
+  // ===========================================================
+  const FORM_BASE_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe06CS3ZIW18jEVnSA0eo8JeMjaFursS0IjO1s2evGXBooAAQ/viewform';
+  const FORM_FIELDS = {
+    vendedor:  'entry.102678544',
+    cliente:   'entry.63288386',
+    numero:    'entry.963876870',
+    modalidad: 'entry.1014614259',
+    total:     'entry.802948725',
+    fecha:     'entry.719482920',
+  };
+
+  function buildPrefilledFormUrl(){
+    const data = collectTrackingData();
+    // Modalidad: el Form tiene opciones predefinidas. Mapeamos lo que viene de la plantilla
+    // a la opción más parecida del Form. Si no matchea, mandamos "Otra".
+    const modalityRaw = (data.clientMode || '').toLowerCase();
+    let modalityForm;
+    if (modalityRaw.includes('cliente final') || modalityRaw.includes('directa')) modalityForm = 'Cliente final';
+    else if (modalityRaw.includes('distribuidor')) modalityForm = 'Distribuidor';
+    else if (modalityRaw.includes('productor')) modalityForm = 'Productor';
+    else modalityForm = 'Otra';
+
+    // Fecha en formato YYYY-MM-DD (Google Forms lo necesita así para el campo Fecha)
+    const today = todayISO();
+
+    const params = {};
+    params[FORM_FIELDS.vendedor]  = data.sellerName || data.sellerInitials || '';
+    params[FORM_FIELDS.cliente]   = data.clientName || '';
+    params[FORM_FIELDS.numero]    = data.docId || '';
+    params[FORM_FIELDS.modalidad] = modalityForm;
+    params[FORM_FIELDS.total]     = String(data.grandTotal || 0);
+    params[FORM_FIELDS.fecha]     = today;
+
+    const qs = Object.keys(params).map(function(k){
+      return k + '=' + encodeURIComponent(params[k]);
+    }).join('&');
+
+    return FORM_BASE_URL + '?usp=pp_url&' + qs;
+  }
+
+  // ===========================================================
+  // Imprimir: descargar PDF + CSV + abrir Form de tracking
   // ===========================================================
   function handlePrint(){
     // Validar iniciales del vendedor
@@ -1649,22 +1692,27 @@ table.prop tr.row-grandtotal td:first-child strong{
       'Vas a generar la propuesta ' + docId + '.\n\n' +
       'Esto:\n' +
       '  1. Descargará un CSV con todos los datos.\n' +
-      '  2. Abrirá el diálogo de impresión para guardar el PDF.\n\n' +
-      'IMPORTANTE: Subí ambos archivos (PDF + CSV) a la carpeta de Drive del equipo.\n\n' +
+      '  2. Abrirá el diálogo de impresión para guardar el PDF.\n' +
+      '  3. Abrirá el Google Form de tracking en una pestaña nueva — solo apretá "Enviar" para registrarla.\n\n' +
       '¿Continuar?'
     );
     if (!ok) return;
 
-    // 1. Descargar CSV
+    // 1. Abrir el Google Form pre-llenado en una pestaña nueva
+    //    (lo hacemos primero porque algunos navegadores bloquean popups si pasa mucho tiempo)
+    const formUrl = buildPrefilledFormUrl();
+    window.open(formUrl, '_blank');
+
+    // 2. Descargar CSV
     const client = slugify((document.querySelector('[data-input="clientName"]')||{}).value || 'Cliente');
     const csvName = 'Tracking_' + client + '_' + todayISO() + '_' + docId + '.csv';
     downloadFile(csvName, 'text/csv', buildTrackingCSV());
 
-    // 2. Sugerir nombre del PDF al usuario (Chrome usa document.title como sugerencia)
+    // 3. Sugerir nombre del PDF al usuario (Chrome usa document.title como sugerencia)
     const originalTitle = document.title;
     document.title = suggestedFilename().replace(/\.pdf$/, '');
 
-    // 3. Disparar impresión
+    // 4. Disparar impresión
     setTimeout(function(){
       window.print();
       setTimeout(function(){ document.title = originalTitle; }, 1000);
